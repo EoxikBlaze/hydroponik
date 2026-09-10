@@ -5,7 +5,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h3 class="mb-0">📋 Laporan Hasil Siklus Hidroponik</h3>
-        <p class="text-muted mb-0">Statistik performa siklus tanam, panen, serta ringkasan sensor IoT</p>
+        <p class="text-muted mb-0">Statistik performa siklus tanam, panen, serta ringkasan kondisi air & suhu</p>
     </div>
     <div class="d-flex gap-2">
         <button onclick="window.print()" class="btn btn-outline-secondary">
@@ -151,7 +151,7 @@
     <div class="col-md-6">
         <div class="card shadow-sm border-0 h-100">
             <div class="card-header bg-light">
-                <h6 class="mb-0 text-info"><i class="fas fa-satellite-dish me-2"></i>Rata-Rata Sensor IoT (6 Jam Terakhir)</h6>
+                <h6 class="mb-0 text-info"><i class="fas fa-satellite-dish me-2"></i>Rata-Rata Kondisi Air & Suhu (6 Jam Terakhir)</h6>
             </div>
             <div class="card-body">
                 @if($sensor)
@@ -177,7 +177,7 @@
     <div class="col-md-6">
         <div class="card shadow-sm border-0 h-100">
             <div class="card-header bg-light">
-                <h6 class="mb-0 text-warning"><i class="fas fa-exclamation-triangle me-2"></i>Riwayat Alert IoT (6 Jam Terakhir)</h6>
+                <h6 class="mb-0 text-warning"><i class="fas fa-exclamation-triangle me-2"></i>Riwayat Peringatan Masalah (6 Jam Terakhir)</h6>
             </div>
             <div class="card-body">
                 @if(!empty($alerts))

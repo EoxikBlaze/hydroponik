@@ -298,7 +298,7 @@
         </a>
 
         <div class="py-2">
-            <span class="sidebar-section-title">Monitoring & IoT</span>
+            <span class="sidebar-section-title">Pantau Kebun</span>
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-chart-pie"></i>
                 <span>Dashboard</span>
@@ -378,14 +378,14 @@
                 </button>
                 <div class="d-none d-md-block">
                     @if(!empty($iotStatus) && $iotStatus['online'])
-                        <div class="topbar-badge-live" title="ESP32 sedang mengirim data secara aktif">
+                        <div class="topbar-badge-live" title="Alat sensor di kebun sedang aktif mengirim data">
                             <span class="live-dot"></span>
-                            <span>ESP32 Online • Sinkronisasi Aktif</span>
+                            <span>Alat Kebun Terhubung (Aktif)</span>
                         </div>
                     @else
-                        <div class="topbar-badge-offline" title="ESP32 belum mengirim data dalam 5 menit terakhir">
+                        <div class="topbar-badge-offline" title="Alat sensor di kebun sedang mati atau tidak tersambung internet">
                             <span class="offline-dot"></span>
-                            <span>ESP32 Offline • Sinkronisasi Mati ({{ $iotStatus['diff_text'] ?? 'Terputus' }})</span>
+                            <span>Alat Kebun Terputus (Mati) ({{ $iotStatus['diff_text'] ?? 'Terputus' }})</span>
                         </div>
                     @endif
                 </div>

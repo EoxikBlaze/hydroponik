@@ -8,11 +8,11 @@
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <span class="badge bg-white bg-opacity-25 text-white mb-2 px-3 py-1 rounded-pill small">
-                    <i class="fas fa-leaf me-1"></i> Greenhouse Politala • HarvestHouse IoT
+                    <i class="fas fa-leaf me-1"></i> Greenhouse Politala • HarvestHouse Kebun Pintar
                 </span>
                 <h2 class="fw-bold mb-2" style="letter-spacing: -0.5px;">Selamat Datang di HarvestHouse</h2>
                 <p class="text-white text-opacity-80 mb-4" style="max-width: 600px;">
-                    Sistem pemantauan lingkungan mikroklimat nutrisi hidroponik berbasis ESP32 secara real-time, manajemen siklus tanam, dan otomatisasi peringatan WhatsApp.
+                    Pantau kondisi air nutrisi, suhu tanaman, dan jadwal panen hidroponik secara otomatis dan mudah.
                 </p>
                 <div class="d-flex gap-2 flex-wrap">
                     <a href="{{ route('monitoring.index') }}" class="btn btn-light px-4 py-2 fw-semibold rounded-3 text-dark shadow-sm">
@@ -37,13 +37,13 @@
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div>
         <h5 class="fw-bold mb-0 text-dark">
-            <i class="fas fa-microchip me-2 text-primary"></i>Telemetri Sensor Terkini (IoT ESP32)
+            <i class="fas fa-seedling me-2 text-emerald"></i>Kondisi Air & Tanaman Terkini
         </h5>
         <small class="text-muted">
             @if(!empty($iotStatus) && $iotStatus['online'])
                 <span class="text-success fw-semibold"><i class="fas fa-circle-check me-1"></i>Koneksi Aktif</span> • Data realtime sedang mengalir
             @else
-                <span class="text-danger fw-semibold"><i class="fas fa-circle-xmark me-1"></i>Sinkronisasi Mati</span> • Terakhir data diterima: <strong>{{ $iotStatus['diff_text'] ?? 'Belum ada data' }}</strong>
+                <span class="text-danger fw-semibold"><i class="fas fa-circle-xmark me-1"></i>Alat Kebun Sedang Mati</span> • Terakhir data diterima: <strong>{{ $iotStatus['diff_text'] ?? 'Belum ada data' }}</strong>
             @endif
         </small>
     </div>
@@ -60,18 +60,18 @@
             <i class="fas fa-triangle-exclamation fs-5"></i>
         </div>
         <div>
-            <h6 class="fw-bold mb-1">Perangkat ESP32 Tidak Mengirimkan Data (Sinkronisasi Mati)</h6>
+            <h6 class="fw-bold mb-1">Alat Sensor di Kebun Sedang Mati / Tidak Terhubung</h6>
             <div class="small opacity-90">
-                Tidak ada data sensor masuk dalam 5 menit terakhir.
+                Sistem tidak menerima data baru dari kebun.
                 @if($latest_sensor)
                     Nilai di bawah adalah <strong>rekaman historis terakhir</strong> pada <strong>{{ $latest_sensor->created_at->format('d/m/Y H:i:s') }} WIB</strong> ({{ $iotStatus['diff_text'] }}).
                 @else
-                    Belum pernah ada data telemetri yang disimpan di sistem.
+                    Belum ada data sensor yang tercatat.
                 @endif
             </div>
         </div>
     </div>
-    <span class="badge bg-danger px-3 py-2 text-uppercase d-none d-md-inline-block">ESP32 Offline</span>
+    <span class="badge bg-danger px-3 py-2 text-uppercase d-none d-md-inline-block">Alat Mati</span>
 </div>
 @endif
 
@@ -372,14 +372,14 @@
                             <i class="fas fa-satellite-dish fs-4"></i>
                         </div>
                         <h6 class="fw-bold text-dark mb-1">Tidak Ada Data dalam 6 Jam Terakhir</h6>
-                        <p class="text-muted small mb-0">ESP32 belum mengirimkan telemetri baru pada periode ini. Rata-rata otomatis dihitung saat data sensor masuk.</p>
+                        <p class="text-muted small mb-0">Belum ada data terbaru dari kebun pada periode ini. Rata-rata akan terhitung otomatis saat alat menyala.</p>
                     </div>
                 @endif
             </div>
         </div>
     </div>
 
-    <!-- Alert & Status IoT -->
+    <!-- Peringatan & Status Kebun -->
     <div class="col-lg-6">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
@@ -387,7 +387,7 @@
                     <i class="fas fa-triangle-exclamation text-warning"></i>
                     <h6 class="fw-bold mb-0">Catatan Peringatan Sensor (Alert Log)</h6>
                 </div>
-                <span class="badge bg-light text-muted border">Otomatisasi ESP32</span>
+                <span class="badge bg-light text-muted border">Otomatis</span>
             </div>
             <div class="card-body p-3">
                 @if($recent_alerts->isNotEmpty())

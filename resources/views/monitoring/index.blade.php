@@ -4,7 +4,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="fas fa-satellite-dish me-2 text-primary"></i>Monitoring Sensor IoT Real-Time</h4>
+        <h4 class="fw-bold mb-1 text-dark"><i class="fas fa-satellite-dish me-2 text-primary"></i>Pantau Kondisi Air & Kebun</h4>
         <p class="text-muted small mb-0">Telemetri sensor mikroklimat & larutan nutrisi greenhouse HarvestHouse</p>
     </div>
     <div class="d-flex align-items-center gap-2">
@@ -23,7 +23,7 @@
     <div class="d-flex align-items-center gap-3">
         <i class="fas fa-tower-broadcast fa-2x text-danger opacity-75"></i>
         <div>
-            <h6 class="fw-bold mb-1" id="offline-title">ESP32 Tidak Mengirimkan Data (Sinkronisasi Mati)</h6>
+            <h6 class="fw-bold mb-1" id="offline-title">Alat Sensor di Kebun Sedang Tidak Mengirim Data</h6>
             <div class="small opacity-90" id="offline-desc">
                 Tidak ada data baru masuk dalam 5 menit terakhir. Nilai dan grafik di bawah menampilkan <strong>rekaman historis terakhir</strong>.
             </div>
@@ -156,7 +156,7 @@
         <div id="chart-empty-state" class="text-center py-5 d-none">
             <i class="fas fa-chart-line fa-3x text-muted mb-3 d-block opacity-40"></i>
             <h6 class="fw-bold text-dark">Belum Ada Data Sensor Tercatat</h6>
-            <p class="text-muted small mb-0">Hubungkan mikrokontroler ESP32 ke endpoint API untuk mulai merekam telemetri.</p>
+            <p class="text-muted small mb-0">Pastikan alat sensor di kebun menyala dan terhubung ke WiFi untuk mencatat data.</p>
         </div>
         <div id="chart-wrapper" style="position: relative; height: 360px; width: 100%;">
             <canvas id="sensorChart"></canvas>

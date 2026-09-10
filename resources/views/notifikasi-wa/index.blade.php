@@ -68,7 +68,7 @@
                 <i class="fas fa-sliders fs-2"></i>
             </div>
             <h6 class="fw-bold text-dark">Ambang Batas (Threshold)</h6>
-            <p class="text-muted small mb-4">ESP32 mengambil parameter min/max ini untuk menentukan alert otomatis.</p>
+            <p class="text-muted small mb-4">Sistem menggunakan batas ini untuk mengirim pesan darurat jika air pupuk kurang atau terlalu pekat.</p>
             <button class="btn btn-warning text-dark fw-semibold w-100 mt-auto py-2" data-bs-toggle="modal" data-bs-target="#modalThresholds">
                 <i class="fas fa-eye me-2"></i>Tinjau Batas Sensor
             </button>
@@ -84,7 +84,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header border-bottom">
-                <h6 class="modal-title fw-bold"><i class="fas fa-sliders me-2 text-warning"></i>Threshold Sensor ESP32</h6>
+                <h6 class="modal-title fw-bold"><i class="fas fa-sliders me-2 text-warning"></i>Batas Aman Kondisi Tanaman</h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-0">

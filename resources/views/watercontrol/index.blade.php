@@ -4,8 +4,8 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="fas fa-faucet-drip me-2 text-primary"></i>Kontrol Otomasi Tandon & Solenoid</h4>
-        <p class="text-muted small mb-0">Manajemen pengisian air tandon nutrisi hidroponik berbasis REST API ESP32</p>
+        <h4 class="fw-bold mb-1 text-dark"><i class="fas fa-faucet-drip me-2 text-primary"></i>Kontrol Pengisian Air Tandon</h4>
+        <p class="text-muted small mb-0">Atur pengisian air tandon secara otomatis atau manual dengan mudah</p>
     </div>
     <div class="d-flex gap-2 align-items-center">
         <span id="device-status-badge" class="badge bg-secondary px-3 py-2 fs-6">
@@ -21,7 +21,7 @@
     <!-- Visual Status Tandon Air -->
     <div class="col-lg-5">
         <div class="card border-0 shadow-sm h-100 p-4 text-center">
-            <h6 class="fw-bold text-muted text-uppercase mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">Status Tangki & Level Air</h6>
+            <h6 class="fw-bold text-muted text-uppercase mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">Ketinggian Air Tangki</h6>
 
             <div class="position-relative mx-auto my-3" style="width: 180px; height: 240px; border: 4px solid #cbd5e1; border-radius: 24px; overflow: hidden; background: #f8fafc; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);">
                 <!-- Animated Water Fill -->
@@ -38,10 +38,10 @@
             </div>
 
             <div class="mt-3">
-                <span class="text-muted small d-block">Status Katup Solenoid (Aktual):</span>
+                <span class="text-muted small d-block">Status Kran Pengisi Air:</span>
                 <h4 id="valve-status-text" class="fw-bold {{ $wc->valve_state === 'ON' ? 'text-success' : 'text-secondary' }} mb-0">
                     <i id="valve-status-icon" class="fas {{ $wc->valve_state === 'ON' ? 'fa-circle-play' : 'fa-circle-pause' }} me-1"></i>
-                    <span id="valve-text">{{ $wc->valve_state === 'ON' ? 'SOLENOID VALVE MENYALA (ON)' : 'SOLENOID VALVE MATI (OFF)' }}</span>
+                    <span id="valve-text">{{ $wc->valve_state === 'ON' ? 'KRAN SEDANG MENGISI AIR (BUKA)' : 'KRAN SEDANG TUTUP (BERHENTI)' }}</span>
                 </h4>
             </div>
         </div>
@@ -51,9 +51,9 @@
     <div class="col-lg-7">
         <div class="card border-0 shadow-sm h-100 p-4 d-flex flex-column justify-content-between">
             <div>
-                <h6 class="fw-bold text-dark mb-3"><i class="fas fa-sliders me-2 text-primary"></i>Operasi Aktuator Pengisian</h6>
+                <h6 class="fw-bold text-dark mb-3"><i class="fas fa-sliders me-2 text-primary"></i>Tombol Buka / Tutup Kran Air</h6>
                 <p class="text-muted small">
-                    Perintah manual dikirim melalui REST API dan akan dieksekusi oleh ESP32 dalam siklus polling berikutnya (~3 detik).
+                    Perintah akan diterima alat di kebun dalam beberapa detik.
                 </p>
 
                 <div class="row g-3 my-2">
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="p-3 rounded-3 border bg-light">
-                            <span class="text-muted small d-block mb-1">Telemetri Terakhir ESP32</span>
+                            <span class="text-muted small d-block mb-1">Waktu Terakhir Alat Merespons</span>
                             <span id="last-telemetry-time" class="fw-bold text-dark small d-block">-</span>
                             <small id="last-telemetry-ago" class="text-muted" style="font-size: 0.72rem;">Memeriksa status...</small>
                         </div>
@@ -80,13 +80,13 @@
                 </div>
 
                 <div class="mt-4">
-                    <label class="form-label small fw-bold text-secondary">Aksi Manual Katup (Override Solenoid):</label>
+                    <label class="form-label small fw-bold text-secondary">Atur Kran Secara Manual:</label>
                     <div class="d-flex gap-3 flex-wrap">
                         <form action="{{ route('watercontrol.fill') }}" method="POST" onsubmit="return confirm('Mulai pengisian air sekarang? Pastikan pasokan air utama tersedia.')">
                             @csrf
                             <button type="submit" class="btn btn-emerald px-4 py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm">
                                 <i class="fas fa-circle-play fs-5"></i>
-                                <span>Buka Katup (Mulai Isi)</span>
+                                <span>Buka Kran (Mulai Isi)</span>
                             </button>
                         </form>
 
@@ -94,7 +94,7 @@
                             @csrf
                             <button type="submit" class="btn btn-danger px-4 py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm">
                                 <i class="fas fa-circle-stop fs-5"></i>
-                                <span>Tutup Katup (Stop Isi)</span>
+                                <span>Tutup Kran (Berhenti)</span>
                             </button>
                         </form>
                     </div>
@@ -104,8 +104,8 @@
             <div class="alert alert-warning border-0 rounded-3 small mt-4 mb-0 d-flex gap-2 align-items-start" style="background-color: #fffbeb; color: #92400e;">
                 <i class="fas fa-shield-halved mt-1"></i>
                 <div>
-                    <strong>Protokol Keamanan Otomasi ESP32:</strong>
-                    ESP32 memiliki timer failsafe maksimal 20 menit pengisian. Jika air belum mencapai batas atas dalam 20 menit, ESP32 otomatis mematikan solenoid valve dan mengirimkan alert WhatsApp darurat.
+                    <strong>Keamanan Pengisian Otomatis:</strong>
+                    Kran air otomatis berhenti jika pengisian sudah melebihi 20 menit untuk mencegah air tumpah jika ada pipa bocor.
                 </div>
             </div>
         </div>
@@ -124,10 +124,10 @@ async function pollStatus() {
         const badge = document.getElementById('device-status-badge');
         if (data.is_online) {
             badge.className = 'badge badge-soft-success px-3 py-2 fs-6';
-            badge.innerHTML = '<i class="fas fa-circle text-success me-1 fa-beat" style="--fa-animation-duration: 1.5s;"></i> ESP32 ONLINE';
+            badge.innerHTML = '<i class="fas fa-circle text-success me-1 fa-beat" style="--fa-animation-duration: 1.5s;"></i> ALAT KEBUN AKTIF';
         } else {
             badge.className = 'badge badge-soft-danger px-3 py-2 fs-6';
-            badge.innerHTML = '<i class="fas fa-circle text-danger me-1"></i> ESP32 OFFLINE';
+            badge.innerHTML = '<i class="fas fa-circle text-danger me-1"></i> ALAT KEBUN MATI';
         }
 
         // 2. Status Solenoid Valve
@@ -139,11 +139,11 @@ async function pollStatus() {
         if (valveOn) {
             valveH4.className = 'fw-bold text-success mb-0';
             valveIcon.className = 'fas fa-circle-play me-1';
-            valveText.textContent = 'SOLENOID VALVE MENYALA (ON)';
+            valveText.textContent = 'KRAN SEDANG MENGISI AIR (BUKA)';
         } else {
             valveH4.className = 'fw-bold text-secondary mb-0';
             valveIcon.className = 'fas fa-circle-pause me-1';
-            valveText.textContent = 'SOLENOID VALVE MATI (OFF)';
+            valveText.textContent = 'KRAN SEDANG TUTUP (BERHENTI)';
         }
 
         // 3. Level Air Tangki
