@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{NotifikasiWAController, MonitoringController};
 
+// Endpoint publik untuk Web Frontend Polling (Real-time monitoring & valve status)
+Route::get('/latest-sensor', [MonitoringController::class, 'latestSensor']);
+
 // ===================================================
 // API UNTUK ESP32 — Dilindungi API Key Middleware
 // ===================================================

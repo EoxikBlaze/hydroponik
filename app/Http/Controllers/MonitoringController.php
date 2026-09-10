@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\{Monitoring, AlertLog};
+use App\Models\{Monitoring, AlertLog, WaterControl};
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class MonitoringController extends Controller
 {
@@ -10,28 +11,73 @@ class MonitoringController extends Controller
         return view('monitoring.index');
     }
 
-    // POST /api/save-sensor  — dipanggil ESP32
+    // POST /api/save-sensor — dipanggil ESP32 via HTTP REST
     public function saveSensor(Request $request)
     {
         $data = $request->json()->all();
         if (empty($data)) {
-            return response()->json(['status' => 'error'], 400);
+            return response()->json(['status' => 'error', 'message' => 'No payload'], 400);
         }
 
-        if (Monitoring::isDuplicate($data)) {
-            return response()->json(['status' => 'skip']);
+        // Simpan jika bukan duplikat persis
+        if (! Monitoring::isDuplicate($data)) {
+            Monitoring::create([
+                'waterTemp'   => $data['waterTemp']   ?? null,
+                'ph'          => $data['ph']           ?? null,
+                'tds'         => $data['tds']          ?? null,
+                'airTemp'     => $data['airTemp']       ?? null,
+                'humidity'    => $data['humidity']     ?? null,
+                'water_level' => $data['water_level']  ?? null,
+            ]);
         }
 
-        Monitoring::create([
-            'waterTemp'   => $data['waterTemp']   ?? null,
-            'ph'          => $data['ph']           ?? null,
-            'tds'         => $data['tds']          ?? null,
-            'airTemp'     => $data['airTemp']       ?? null,
-            'humidity'    => $data['humidity']     ?? null,
-            'water_level' => $data['water_level']  ?? null,
+        $wc = WaterControl::current();
+
+        // Update status fisik valve jika dikirim ESP32
+        if (!empty($data['solenoid_state'])) {
+            $valve = strtoupper($data['solenoid_state']) === 'ON' ? 'ON' : 'OFF';
+            $wc->update(['valve_state' => $valve]);
+        }
+
+        // Ambil command pending untuk ESP32
+        $pendingCommand = $wc->command;
+        if ($pendingCommand !== 'AUTO') {
+            $wc->update(['command' => 'AUTO']);
+        }
+
+        return response()->json([
+            'status'      => 'ok',
+            'command'     => $pendingCommand,
+            'mode'        => $wc->mode,
+            'server_time' => now()->toIso8601String(),
         ]);
+    }
 
-        return response()->json(['status' => 'ok']);
+    // GET /api/latest-sensor — Polling live web
+    public function latestSensor()
+    {
+        $latest = Monitoring::latest('created_at')->first();
+        $wc     = WaterControl::current();
+
+        $isOnline = false;
+        $secondsAgo = null;
+
+        if ($latest && $latest->created_at) {
+            $secondsAgo = Carbon::parse($latest->created_at)->diffInSeconds(now());
+            $isOnline = $secondsAgo <= 45;
+        }
+
+        return response()->json([
+            'is_online'    => $isOnline,
+            'seconds_ago'  => $secondsAgo,
+            'sensor'       => $latest,
+            'water_control'=> [
+                'mode'        => $wc->mode,
+                'valve_state' => $wc->valve_state,
+                'command'     => $wc->command,
+                'updated_at'  => $wc->updated_at,
+            ]
+        ]);
     }
 
     // POST /monitoring/saveAlert

@@ -27,10 +27,24 @@ class DashboardController extends Controller
         $peremajaanAktif  = Peremajaan::count();
         $pendewasaanAktif = Pendewasaan::count();
 
+        // Status Realtime IoT ESP32
+        $isOnline = false;
+        $secondsAgo = null;
+        if ($latestSensor && $latestSensor->created_at) {
+            $secondsAgo = \Carbon\Carbon::parse($latestSensor->created_at)->diffInSeconds(now());
+            $isOnline = ($secondsAgo <= 45);
+        }
+        $iotStatus = [
+            'online' => $isOnline,
+            'seconds_ago' => $secondsAgo,
+            'last_seen' => $latestSensor?->created_at,
+        ];
+
         // Data panen terbaru
         $recentPanen = Panen::with(['pendewasaan.peremajaan.semai.tanaman'])->latest('tgl_panen')->limit(5)->get();
 
         return view('dashboard', [
+            'iotStatus'          => $iotStatus,
             'total_tanaman'     => $totalTanaman,
             'total_meja'        => $totalMeja,
             'total_siklus'      => $totalSiklus,
