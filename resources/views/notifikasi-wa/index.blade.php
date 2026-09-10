@@ -88,6 +88,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-0">
+                <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr><th class="ps-4">Sensor</th><th>Min</th><th>Max</th><th class="pe-4">Satuan</th></tr>
@@ -109,6 +110,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>

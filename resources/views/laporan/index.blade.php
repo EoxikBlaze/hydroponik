@@ -155,6 +155,7 @@
             </div>
             <div class="card-body">
                 @if($sensor)
+                <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <tbody>
                         <tr><td>🌡️ Suhu Air Nutrisi</td><td class="fw-bold text-end">{{ $sensor['waterTemp'] }} °C</td></tr>
@@ -164,6 +165,7 @@
                         <tr><td>💧 Kelembapan Udara</td><td class="fw-bold text-end">{{ $sensor['humidity'] }} %</td></tr>
                     </tbody>
                 </table>
+                </div>
                 @else
                 <div class="text-center py-4 text-muted">
                     <i class="fas fa-info-circle fa-2x mb-2 d-block"></i>

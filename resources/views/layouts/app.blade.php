@@ -277,10 +277,33 @@
         .badge-soft-info    { background: #e0f2fe; color: #0369a1; font-weight: 600; }
         .badge-soft-primary { background: #e0e7ff; color: #4338ca; font-weight: 600; }
 
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .sidebar-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
         @media (max-width: 991.98px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.show { transform: translateX(0); }
+            .sidebar { transform: translateX(-100%); z-index: 999; }
+            .sidebar.show { transform: translateX(0); box-shadow: 10px 0 30px rgba(0,0,0,0.25); }
             .main-wrapper { margin-left: 0; }
+        }
+
+        @media (max-width: 575.98px) {
+            .content-body { padding: 1rem 0.85rem !important; }
+            .topbar { padding: 0.75rem 1rem !important; }
         }
     </style>
     @stack('styles')
@@ -367,6 +390,7 @@
             @endif
         </div>
     </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
@@ -387,6 +411,18 @@
                             <span class="offline-dot"></span>
                             <span>Alat Kebun Terputus (Mati) ({{ $iotStatus['diff_text'] ?? 'Terputus' }})</span>
                         </div>
+                    @endif
+                </div>
+                <!-- Status Ringkas Khusus Layar HP Android/iPhone -->
+                <div class="d-md-none">
+                    @if(!empty($iotStatus) && $iotStatus['online'])
+                        <span class="badge badge-soft-success py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                            <span class="live-dot" style="width: 6px; height: 6px;"></span> Aktif
+                        </span>
+                    @else
+                        <span class="badge badge-soft-danger py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                            <span class="offline-dot" style="width: 6px; height: 6px;"></span> Mati
+                        </span>
                     @endif
                 </div>
             </div>
@@ -463,14 +499,44 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Mobile sidebar toggle
+        // Mobile sidebar toggle with backdrop overlay
         const toggleBtn = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+
+        function openSidebar() {
+            sidebar.classList.add('show');
+            if (backdrop) backdrop.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Cegah scroll latar di HP
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('show');
+            if (backdrop) backdrop.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
         if (toggleBtn && sidebar) {
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('show');
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (sidebar.classList.contains('show')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
             });
         }
+
+        if (backdrop) {
+            backdrop.addEventListener('click', closeSidebar);
+        }
+
+        // Tutup otomatis jika klik navigasi di HP
+        sidebar?.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) closeSidebar();
+            });
+        });
     </script>
     @stack('scripts')
 </body>
