@@ -81,7 +81,7 @@
         <div class="card card-elevated h-100 border-0 shadow-sm" style="border-top: 4px solid #8b5cf6 !important;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="small fw-semibold text-muted">pH Nutrisi</span>
+                    <span class="small fw-semibold text-muted" title="Tingkat Asam-Basa Air Nutrisi">pH (Asam-Basa)</span>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #f5f3ff; color: #8b5cf6;">
                         <i class="fas fa-flask"></i>
                     </div>
@@ -106,7 +106,7 @@
         <div class="card card-elevated h-100 border-0 shadow-sm" style="border-top: 4px solid #0284c7 !important;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="small fw-semibold text-muted">Suhu Air</span>
+                    <span class="small fw-semibold text-muted" title="Suhu Air di Tandon Penampungan">Suhu Air Tandon</span>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #f0f9ff; color: #0284c7;">
                         <i class="fas fa-temperature-half"></i>
                     </div>
@@ -135,7 +135,7 @@
         <div class="card card-elevated h-100 border-0 shadow-sm" style="border-top: 4px solid #d97706 !important;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="small fw-semibold text-muted">TDS Nutrisi</span>
+                    <span class="small fw-semibold text-muted" title="Kepekatan Pupuk Tanaman (Parts Per Million)">TDS (Kepekatan Pupuk)</span>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #fffbeb; color: #d97706;">
                         <i class="fas fa-bolt"></i>
                     </div>
@@ -164,7 +164,7 @@
         <div class="card card-elevated h-100 border-0 shadow-sm" style="border-top: 4px solid #ea580c !important;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="small fw-semibold text-muted">Suhu Udara</span>
+                    <span class="small fw-semibold text-muted" title="Suhu Ruangan Sekitar Tanaman">Suhu Ruangan</span>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #fff7ed; color: #ea580c;">
                         <i class="fas fa-sun"></i>
                     </div>
@@ -193,7 +193,7 @@
         <div class="card card-elevated h-100 border-0 shadow-sm" style="border-top: 4px solid #0d9488 !important;">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="small fw-semibold text-muted">Kelembapan</span>
+                    <span class="small fw-semibold text-muted" title="Kelembapan Udara Greenhouse">Kelembapan Udara</span>
                     <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background: #f0fdfa; color: #0d9488;">
                         <i class="fas fa-droplet"></i>
                     </div>
