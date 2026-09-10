@@ -1,0 +1,14 @@
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+
+class WaterControl extends Model
+{
+    public $timestamps  = false;
+    protected $fillable = ['command', 'mode'];
+
+    public static function current(): self
+    {
+        return self::first() ?? self::create(['command' => 'AUTO', 'mode' => 'AUTO']);
+    }
+}
