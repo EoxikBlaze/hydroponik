@@ -27,16 +27,20 @@ class DashboardController extends Controller
         $peremajaanAktif  = Peremajaan::count();
         $pendewasaanAktif = Pendewasaan::count();
 
-        // Status Realtime IoT ESP32
+        // Status Realtime Alat Kebun
         $isOnline = false;
         $secondsAgo = null;
+        $diffText = "Belum pernah ada data";
         if ($latestSensor && $latestSensor->created_at) {
-            $secondsAgo = \Carbon\Carbon::parse($latestSensor->created_at)->diffInSeconds(now());
+            $carbonDate = \Carbon\Carbon::parse($latestSensor->created_at);
+            $secondsAgo = $carbonDate->diffInSeconds(now());
             $isOnline = ($secondsAgo <= 45);
+            $diffText = $carbonDate->locale('id')->diffForHumans();
         }
         $iotStatus = [
             'online' => $isOnline,
             'seconds_ago' => $secondsAgo,
+            'diff_text' => $diffText,
             'last_seen' => $latestSensor?->created_at,
         ];
 

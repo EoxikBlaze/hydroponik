@@ -115,6 +115,33 @@
 
 @push('scripts')
 <script>
+function formatTimeAgo(totalSeconds) {
+    if (isNaN(totalSeconds) || totalSeconds === null || totalSeconds < 0) return '-';
+    const s = Math.floor(totalSeconds);
+    if (s < 10) return 'Baru saja';
+    if (s < 60) return s + ' detik yang lalu';
+
+    const minutes = Math.floor(s / 60);
+    const hours   = Math.floor(minutes / 60);
+    const days    = Math.floor(hours / 24);
+    const weeks   = Math.floor(days / 7);
+
+    if (weeks > 0) {
+        const remDays = days % 7;
+        return weeks + ' minggu ' + (remDays > 0 ? remDays + ' hari ' : '') + 'yang lalu';
+    }
+    if (days > 0) {
+        const remHours = hours % 24;
+        return days + ' hari ' + (remHours > 0 ? remHours + ' jam ' : '') + 'yang lalu';
+    }
+    if (hours > 0) {
+        const remMins = minutes % 60;
+        return hours + ' jam ' + (remMins > 0 ? remMins + ' menit ' : '') + 'yang lalu';
+    }
+    const remSecs = s % 60;
+    return minutes + ' menit ' + (remSecs > 0 ? remSecs + ' detik ' : '') + 'yang lalu';
+}
+
 async function pollStatus() {
     try {
         const res = await fetch('/api/latest-sensor');
@@ -166,8 +193,9 @@ async function pollStatus() {
         // 4. Waktu Terakhir
         if (data.sensor && data.sensor.created_at) {
             const date = new Date(data.sensor.created_at);
-            document.getElementById('last-telemetry-time').textContent = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            document.getElementById('last-telemetry-ago').textContent = Math.round(data.seconds_ago) + ' detik yang lalu';
+            const dateFormatted = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' WIB';
+            document.getElementById('last-telemetry-time').textContent = dateFormatted;
+            document.getElementById('last-telemetry-ago').textContent = formatTimeAgo(data.seconds_ago);
         }
 
     } catch (err) {
