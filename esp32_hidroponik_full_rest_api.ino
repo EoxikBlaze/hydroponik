@@ -11,6 +11,8 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <HTTPClient.h>
+#include <WiFiManager.h>      // Library WiFiManager by tzapu (Install via Arduino Library Manager)
+#include <Preferences.h>      // Untuk simpan Server URL & API Key permanen di NVS Flash ESP32
 
 // ==============================================================================
 // KONFIGURASI SISTEM HIDROPONIK ESP32 - FULL REST API (NO MQTT / NO HIVEMQ)
@@ -19,11 +21,34 @@
 // - Saat pengujian via localhost.run : "https://xxxx.localhost.run"
 // - Saat di jaringan lokal laptop     : "http://192.168.1.xxx:8000"
 // - Saat produksi / live              : "https://harvesthouse.biz.id"
-const char* website_base_url = "https://harvesthouse.biz.id";
-const char* website_api_key  = "HARVEST123";
+// ==============================================================================
+// KONFIGURASI SISTEM HIDROPONIK ESP32 - WIFIMANAGER + FULL REST API
+// ==============================================================================
+Preferences preferences;
 
-const char* ssid     = "HarvestHouse";
-const char* password = "house2025";
+// Nilai default (bisa diubah dari HP via WiFiManager portal tanpa reflash!)
+char website_base_url[128] = "https://harvesthouse.biz.id";
+char website_api_key[32]   = "HARVEST123";
+
+// Callback saat ESP32 masuk mode Access Point (Hotspot)
+void configModeCallback(WiFiManager *myWiFiManager) {
+    Serial.println("
+[WIFI MANAGER] Masuk Mode Access Point (Hotspot Setup)");
+    Serial.print("[WIFI MANAGER] Hubungkan HP ke SSID: ");
+    Serial.println(myWiFiManager->getConfigPortalSSID());
+    Serial.print("[WIFI MANAGER] Buka browser ke IP: ");
+    Serial.println(WiFi.softAPIP());
+
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("SETUP WIFI DARI HP:");
+    lcd.setCursor(0, 1);
+    lcd.print("SSID: HarvestHouse");
+    lcd.setCursor(0, 2);
+    lcd.print("IP  : 192.168.4.1");
+    lcd.setCursor(0, 3);
+    lcd.print("PW  : kebun2026");
+}
 
 // Interval pengiriman data sensor ke server via HTTP POST (milidetik)
 #define SENSOR_POST_INTERVAL  5000UL  // Kirim data setiap 5 detik
@@ -221,10 +246,8 @@ bool              fillingActive     = false;
 // ===================================================
 void syncRTCWithNTP();
 void reconnectWiFi();
-void publishSensorData(const char* topic, float value, const char* unit);
 void setupSSRPin();
 void safeSetSSR(bool turnOn);
-void reconnectMQTT();
 float readPH();
 float readTDSStable(int tdsPin, float wTemp, int samples, int delayMs);
 void updateLCD();
@@ -1345,11 +1368,48 @@ void setup() {
 
     initializeWarmup();
 
-    lcd.clear(); lcd.setCursor(0, 0); lcd.print("Connecting WiFi...");
-    WiFi.begin(ssid, password);
+    // Baca URL Server & API Key yang tersimpan di NVS Flash
+    preferences.begin("harvest_cfg", false);
+    String savedUrl = preferences.getString("server_url", "https://harvesthouse.biz.id");
+    String savedKey = preferences.getString("api_key", "HARVEST123");
+    strncpy(website_base_url, savedUrl.c_str(), sizeof(website_base_url) - 1);
+    strncpy(website_api_key, savedKey.c_str(), sizeof(website_api_key) - 1);
 
-    int wt = 0;
-    while (WiFi.status() != WL_CONNECTED && wt < 20) { delay(500); wt++; }
+    lcd.clear(); 
+    lcd.setCursor(0, 0); 
+    lcd.print("Menghubungkan WiFi..");
+
+    WiFiManager wm;
+    wm.setAPCallback(configModeCallback);
+    wm.setConfigPortalTimeout(180); // 3 Menit timeout jika tidak ada konfigurasi dari HP
+
+    // Kolom input tambahan di halaman WiFi HP
+    WiFiManagerParameter custom_server("server_url", "Server URL (misal https://xxx.lhr.life)", website_base_url, 128);
+    WiFiManagerParameter custom_key("api_key", "API Key Website", website_api_key, 32);
+    wm.addParameter(&custom_server);
+    wm.addParameter(&custom_key);
+
+    // AutoConnect: jika WiFi lama ketemu, langsung connect.
+    // Jika tidak ketemu, otomatis buat Access Point "HarvestHouse-Setup" (Password: kebun2026)
+    bool wifiConnected = wm.autoConnect("HarvestHouse-Setup", "kebun2026");
+
+    if (wifiConnected) {
+        // Simpan setting server baru jika diisi dari HP
+        if (strlen(custom_server.getValue()) > 0) {
+            strncpy(website_base_url, custom_server.getValue(), sizeof(website_base_url) - 1);
+            preferences.putString("server_url", String(website_base_url));
+        }
+        if (strlen(custom_key.getValue()) > 0) {
+            strncpy(website_api_key, custom_key.getValue(), sizeof(website_api_key) - 1);
+            preferences.putString("api_key", String(website_api_key));
+        }
+        preferences.end();
+        Serial.printf("[CONFIG] Server Base URL: %s
+", website_base_url);
+    } else {
+        preferences.end();
+        Serial.println("[WIFI] Timeout portal atau gagal terhubung ke WiFi!");
+    }
 
     if (WiFi.status() == WL_CONNECTED) {
         Serial.println("WiFi OK");
@@ -1410,7 +1470,7 @@ void loop() {
 
     if (!isOnline()) {
         handleOfflineMode(); reconnectWiFi();
-        if (WiFi.status() == WL_CONNECTED && !mqttClient.connected()) reconnectMQTT();
+        
         if (now - previousSensorRead >= SENSOR_READ_INTERVAL) { previousSensorRead = now; readAllSensors(); }
         if (now - previousLCDUpdate  >= LCD_UPDATE_INTERVAL)  { previousLCDUpdate  = now; updateLCD(); }
         return;
