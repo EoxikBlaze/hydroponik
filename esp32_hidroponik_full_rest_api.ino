@@ -1453,8 +1453,7 @@ void setup() {
             preferences.putString("api_key", String(website_api_key));
         }
         preferences.end();
-        Serial.printf("[CONFIG] Server Base URL: %s
-", website_base_url);
+        Serial.printf("[CONFIG] Server Base URL: %s\n", website_base_url);
     } else {
         preferences.end();
         Serial.println("[WIFI] Timeout portal atau gagal terhubung ke WiFi!");
