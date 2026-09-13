@@ -58,6 +58,7 @@ WiFiUDP   ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 
 #define SSR_SOLENOID          25
+#define BUZZER_PIN            26    // Pin Alarm Buzzer
 #define WATER_SWITCH_LOW_PIN  27
 #define WATER_SWITCH_HIGH_PIN 14
 #define DHTPIN                4
@@ -247,6 +248,8 @@ bool              fillingActive     = false;
 void syncRTCWithNTP();
 void reconnectWiFi();
 void setupSSRPin();
+    setupBuzzer();
+    beepSuccess();
 void safeSetSSR(bool turnOn);
 float readPH();
 float readTDSStable(int tdsPin, float wTemp, int samples, int delayMs);
@@ -272,6 +275,13 @@ void updateWaterControlState();
 void controlWaterSystem();
 void logWaterControlDebug();
 void updateGlobalSwitchState();
+    if (emergencyStop || systemLockout || switchLogicError) {
+        static unsigned long lastAlarmBeep = 0;
+        if (millis() - lastAlarmBeep >= 3500UL) {
+            lastAlarmBeep = millis();
+            beepAlarm();
+        }
+    }
 bool isOnline();
 void handleOfflineMode();
 void handleBackOnline();
@@ -943,6 +953,7 @@ void safeSetSSR(bool turnOn) {
     ssrActive = turnOn;
     if (!turnOn) fillingStartMs = 0;
     publishSSRState(turnOn);
+    beepClick();
     Serial.printf("SSR: %s\n", turnOn ? "ON" : "OFF");
 }
 
@@ -1325,6 +1336,35 @@ void sendSensorDataViaREST() {
     http.end();
 }
 
+
+// ==============================================================================
+// KONTROL ALARM & NADA BUZZER (GPIO 26)
+// ==============================================================================
+void setupBuzzer() {
+    pinMode(BUZZER_PIN, OUTPUT);
+    digitalWrite(BUZZER_PIN, LOW);
+}
+
+void beepClick() {
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(60);
+    digitalWrite(BUZZER_PIN, LOW);
+}
+
+void beepSuccess() {
+    digitalWrite(BUZZER_PIN, HIGH); delay(70);
+    digitalWrite(BUZZER_PIN, LOW); delay(60);
+    digitalWrite(BUZZER_PIN, HIGH); delay(70);
+    digitalWrite(BUZZER_PIN, LOW);
+}
+
+void beepAlarm() {
+    for (int i = 0; i < 3; i++) {
+        digitalWrite(BUZZER_PIN, HIGH); delay(80);
+        digitalWrite(BUZZER_PIN, LOW); delay(60);
+    }
+}
+
 void setup() {
     Serial.begin(115200); delay(2000);
     Serial.println("\n=== HYDROPONICS v4.0 - ANTI-SPAM + DB THRESHOLD ===");
@@ -1335,7 +1375,9 @@ void setup() {
     lcd.begin(20, 4); lcd.clear(); lcd.backlight();
     lcd.setCursor(0, 0); lcd.print("SYSTEM STARTING...");
 
-    setupSSRPin(); dht.begin(); ds18b20.begin();
+    setupSSRPin();
+    setupBuzzer();
+    beepSuccess(); dht.begin(); ds18b20.begin();
 
     if (!rtc.begin(&Wire1)) { Serial.println("RTC not found!"); }
     else if (rtc.lostPower()) { rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); }
@@ -1360,6 +1402,13 @@ void setup() {
 
     resetNotifTrackers();
     updateGlobalSwitchState();
+    if (emergencyStop || systemLockout || switchLogicError) {
+        static unsigned long lastAlarmBeep = 0;
+        if (millis() - lastAlarmBeep >= 3500UL) {
+            lastAlarmBeep = millis();
+            beepAlarm();
+        }
+    }
 
     if (!g_lowSwitch && g_highSwitch) {
         Serial.println("BOOT WARNING: Switch logic error!");
@@ -1445,6 +1494,13 @@ void loop() {
     unsigned long now = millis();
 
     updateGlobalSwitchState();
+    if (emergencyStop || systemLockout || switchLogicError) {
+        static unsigned long lastAlarmBeep = 0;
+        if (millis() - lastAlarmBeep >= 3500UL) {
+            lastAlarmBeep = millis();
+            beepAlarm();
+        }
+    }
 
     if (now - lastSafetyCheck >= SAFETY_CHECK_INTERVAL) {
         lastSafetyCheck = now;
