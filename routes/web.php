@@ -34,6 +34,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/monitoring/sendReportWA',   [MonitoringController::class,  'sendFullReport']);
 Route::get('/monitoring/getReport6Jam',  [MonitoringController::class,  'getReport6Jam']);
 Route::post('/monitoring/saveAlert',     [MonitoringController::class,  'saveAlert']);
+Route::post('/monitoring/saveSensor',    [MonitoringController::class,  'saveSensor']);
 Route::get('/monitoring/sendFullReport', [MonitoringController::class,  'sendFullReport']);
 Route::get('/cron/check-sensor',         [NotifikasiWAController::class,'sendReport']);
 

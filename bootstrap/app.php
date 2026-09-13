@@ -16,11 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
         // Percayai semua reverse proxy (seperti localhost.run, cloudflared, ngrok)
         $middleware->trustProxies(at: '*');
 
-        // Kecualikan route login dan API dari CSRF agar tidak terjadi error 419 di tunnel
+        // Kecualikan route login, API, dan sensor dari CSRF (kompatibel CI4)
         $middleware->validateCsrfTokens(except: [
             'login',
             'login/*',
             'api/*',
+            'monitoring/saveSensor',
+            'monitoring/saveAlert',
         ]);
 
         $middleware->alias([
