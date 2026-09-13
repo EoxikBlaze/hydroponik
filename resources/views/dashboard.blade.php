@@ -52,7 +52,8 @@
     </a>
 </div>
 
-<!-- REAL OFFLINE WARNING BANNER (JIKA ESP32 MATI/TIDAK MENGIRIM DATA) -->
+<!-- REAL OFFLINE WARNING BANNER -->
+<div id="offline-banner-wrap">
 @if(empty($iotStatus) || !$iotStatus['online'])
 <div class="alert alert-danger border-0 shadow-sm rounded-3 d-flex align-items-center justify-content-between py-3 mb-4" style="background-color: #fef2f2; color: #991b1b; border-left: 5px solid #ef4444 !important;">
     <div class="d-flex align-items-center gap-3">
@@ -74,6 +75,7 @@
     <span class="badge bg-danger px-3 py-2 text-uppercase d-none d-md-inline-block">Alat Mati</span>
 </div>
 @endif
+</div>
 
 <div class="row g-3 mb-4">
     <!-- pH Card -->
@@ -87,7 +89,7 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    {{ $latest_sensor && $latest_sensor->ph !== null ? number_format($latest_sensor->ph, 2) : '--' }}
+                    <span id="live-ph">{{ $latest_sensor && $latest_sensor->ph !== null ? number_format($latest_sensor->ph, 2) : '--' }}</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Opt: 5.5 - 6.5</small>
@@ -113,7 +115,7 @@
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
                     @if($latest_sensor && $latest_sensor->waterTemp !== null)
-                        {{ number_format($latest_sensor->waterTemp, 1) }} <span class="fs-6 fw-normal text-muted">°C</span>
+                        <span id="live-watertemp">{{ number_format($latest_sensor->waterTemp, 1) }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
                     @else
                         --
                     @endif
@@ -171,7 +173,7 @@
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
                     @if($latest_sensor && $latest_sensor->airTemp !== null)
-                        {{ number_format($latest_sensor->airTemp, 1) }} <span class="fs-6 fw-normal text-muted">°C</span>
+                        <span id="live-airtemp">{{ number_format($latest_sensor->airTemp, 1) }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
                     @else
                         --
                     @endif
@@ -200,7 +202,7 @@
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
                     @if($latest_sensor && $latest_sensor->humidity !== null)
-                        {{ number_format($latest_sensor->humidity, 1) }} <span class="fs-6 fw-normal text-muted">%</span>
+                        <span id="live-hum">{{ number_format($latest_sensor->humidity, 1) }}</span> <span class="fs-6 fw-normal text-muted">%</span>
                     @else
                         --
                     @endif
@@ -416,3 +418,58 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+async function checkLiveDevice() {
+    try {
+        const res = await fetch('/api/latest-sensor');
+        const data = await res.json();
+
+        // 1. Update status banner offline
+        const bannerWrap = document.getElementById('offline-banner-wrap');
+        if (bannerWrap) {
+            if (data.is_online) {
+                bannerWrap.style.display = 'none';
+            } else {
+                bannerWrap.style.display = 'block';
+            }
+        }
+
+        // 2. Update nilai-nilai kartu jika ada data baru
+        if (data.sensor) {
+            const elPh = document.getElementById('live-ph');
+            const elWt = document.getElementById('live-watertemp');
+            const elTds = document.getElementById('live-tds');
+            const elAt = document.getElementById('live-airtemp');
+            const elHum = document.getElementById('live-hum');
+
+            if (elPh && data.sensor.ph !== null) elPh.textContent = parseFloat(data.sensor.ph).toFixed(2);
+            if (elWt && data.sensor.waterTemp !== null) elWt.textContent = parseFloat(data.sensor.waterTemp).toFixed(1);
+            if (elTds && data.sensor.tds !== null) elTds.textContent = Math.round(data.sensor.tds);
+            if (elAt && data.sensor.airTemp !== null) elAt.textContent = parseFloat(data.sensor.airTemp).toFixed(1);
+            if (elHum && data.sensor.humidity !== null) elHum.textContent = parseFloat(data.sensor.humidity).toFixed(1);
+        }
+
+        // 3. Update topbar badge
+        const topbarLive = document.querySelector('.topbar-badge-live');
+        const topbarOffline = document.querySelector('.topbar-badge-offline');
+        if (topbarLive && topbarOffline) {
+            if (data.is_online) {
+                topbarLive.parentElement.style.display = 'block';
+                topbarOffline.parentElement.style.display = 'none';
+            } else {
+                topbarLive.parentElement.style.display = 'none';
+                topbarOffline.parentElement.style.display = 'block';
+            }
+        }
+    } catch (e) {
+        console.error("Gagal polling sensor:", e);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setInterval(checkLiveDevice, 3000); // Polling otomatis tiap 3 detik
+});
+</script>
+@endpush
