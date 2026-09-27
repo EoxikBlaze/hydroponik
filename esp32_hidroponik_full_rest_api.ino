@@ -71,6 +71,11 @@ WiFiClientSecure   clientSecure; // Global client to save stack memory
 char website_base_url[128] = "https://harvesthouse.biz.id";
 char website_api_key[32]   = "HARVEST123";
 
+// Saklar Pengiriman Data Cloud:
+// false = Mode Uji Meja (TIDAK ADA DATA/NOTIFIKASI PALSU YANG DIKIRIM KE WEBSITE)
+// true  = Mode Produksi Kebun (Kirim data sensor asli ke website)
+#define ENABLE_CLOUD_SYNC      false
+
 // ==============================================================================
 // 5. GLOBAL STATE & FILTER VARIABLES
 // ==============================================================================
@@ -380,6 +385,18 @@ void updateWaterControlState() {
 // 12. FULL REST API TRANSMISSION TO WEBSITE
 // ==============================================================================
 void sendSensorDataViaREST() {
+    // 1. Guard Saklar Cloud Sync
+    if (!ENABLE_CLOUD_SYNC) {
+        Serial.println("[REST] Sinkronisasi Cloud DINONAKTIFKAN (Mode Uji Meja - Data Website Aman Tanpa Update Palsu)");
+        return;
+    }
+
+    // 2. Guard Sensor Fisik (Cegah data default/dummy terkirim jika kosongan)
+    if (ds18b20Count == 0 && isnan(dht.readTemperature())) {
+        Serial.println("[REST] Sensor fisik belum terpasang! Pengiriman dilewati agar database website tetap 100% murni.");
+        return;
+    }
+
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println("[REST] WiFi belum terhubung.");
         return;
@@ -434,6 +451,7 @@ void sendSensorDataViaREST() {
 }
 
 void sendHardwareNotification(String type, String value) {
+    if (!ENABLE_CLOUD_SYNC) return;
     if (WiFi.status() != WL_CONNECTED) return;
 
     HTTPClient http;
