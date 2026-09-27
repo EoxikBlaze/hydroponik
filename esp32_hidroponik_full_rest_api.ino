@@ -13,6 +13,8 @@
 #include <NTPClient.h>        // Library: "NTPClient" by Fabrice Weinberg
 #include <WiFiUdp.h>
 #include <ArduinoJson.h>       // Library: "ArduinoJson" v6 or v7
+#include "soc/soc.h"          // Pengendali register SoC ESP32
+#include "soc/rtc_cntl_reg.h" // Pengendali Brownout Detector
 
 // ==============================================================================
 // 1. PIN DEFINITIONS & HARDWARE CONFIGURATION
@@ -390,7 +392,7 @@ void sendSensorDataViaREST() {
     http.begin(clientSecure, url);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("X-API-KEY", website_api_key);
-    http.setTimeout(6000);
+    http.setTimeout(10000);
 
     String waterLvlStr = "Sedang";
     if (systemLockout)          waterLvlStr = "LOCKOUT";
@@ -440,7 +442,7 @@ void sendHardwareNotification(String type, String value) {
     http.begin(clientSecure, url);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("X-API-KEY", website_api_key);
-    http.setTimeout(6000);
+    http.setTimeout(10000);
 
     StaticJsonDocument<256> doc;
     doc["type"]  = type;
@@ -514,6 +516,9 @@ void updateLCD() {
 // 14. ARDUINO SETUP
 // ==============================================================================
 void setup() {
+    // Matikan detektor brownout (mencegah reboot mendadak akibat lonjakan arus pemancar WiFi/SSL)
+    WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+
     Serial.begin(115200);
     delay(300);
     Serial.println("\n\n========================================");
