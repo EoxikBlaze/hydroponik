@@ -555,6 +555,7 @@ void setup() {
     }
 
     dht.begin();
+    pinMode(ONE_WIRE_BUS, INPUT_PULLUP);
     ds18b20.begin();
     ds18b20.setWaitForConversion(false); // Non-blocking
     ds18b20Count = ds18b20.getDeviceCount();
