@@ -402,10 +402,17 @@
                 </button>
                 <div class="d-none d-md-block">
                     @if(!empty($iotStatus) && $iotStatus['online'])
-                        <div class="topbar-badge-live" title="Alat sensor di kebun sedang aktif mengirim data">
-                            <span class="live-dot"></span>
-                            <span>Alat Kebun Terhubung (Aktif)</span>
-                        </div>
+                        @if(!empty($iotStatus['has_anomaly']))
+                            <div class="topbar-badge-warning" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px;" title="Alat terhubung namun ada data sensor yang tidak wajar. Periksa alat di kebun.">
+                                <span style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+                                <span>⚠️ Periksa Alat (Data Tidak Wajar)</span>
+                            </div>
+                        @else
+                            <div class="topbar-badge-live" title="Alat sensor di kebun sedang aktif mengirim data">
+                                <span class="live-dot"></span>
+                                <span>Alat Kebun Terhubung (Aktif)</span>
+                            </div>
+                        @endif
                     @else
                         <div class="topbar-badge-offline" title="Alat sensor di kebun sedang mati atau tidak tersambung internet">
                             <span class="offline-dot"></span>
@@ -416,9 +423,15 @@
                 <!-- Status Ringkas Khusus Layar HP Android/iPhone -->
                 <div class="d-md-none">
                     @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-success py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;">
-                            <span class="live-dot" style="width: 6px; height: 6px;"></span> Aktif
-                        </span>
+                        @if(!empty($iotStatus['has_anomaly']))
+                            <span class="badge badge-soft-warning py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem; color: #d97706; background: rgba(245, 158, 11, 0.15);">
+                                ⚠️ Periksa Alat
+                            </span>
+                        @else
+                            <span class="badge badge-soft-success py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                                <span class="live-dot" style="width: 6px; height: 6px;"></span> Aktif
+                            </span>
+                        @endif
                     @else
                         <span class="badge badge-soft-danger py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;">
                             <span class="offline-dot" style="width: 6px; height: 6px;"></span> Mati

@@ -64,12 +64,15 @@ class MonitoringController extends Controller
 
         if ($latest && $latest->created_at) {
             $secondsAgo = Carbon::parse($latest->created_at)->diffInSeconds(now());
-            $isOnline = $secondsAgo <= 45;
+            $isOnline = $secondsAgo <= 60; // Toleransi 60 detik
         }
+
+        $anomalies = Monitoring::checkAnomalies($latest);
 
         return response()->json([
             'is_online'    => $isOnline,
             'seconds_ago'  => $secondsAgo,
+            'anomalies'    => $anomalies,
             'sensor'       => $latest,
             'water_control'=> [
                 'mode'        => $wc->mode,
@@ -118,11 +121,6 @@ class MonitoringController extends Controller
         $sensor = Monitoring::avg6Jam();
         if (! $sensor) return response()->json(['msg' => 'no data']);
 
-        $laporan  = new \App\Services\LaporanService();
-        $message  = $laporan->generate();
-        $wa       = new \App\Services\WhatsAppService();
-        $berhasil = $wa->sendToAll($message);
-
-        return response()->json(['status' => 'sent', 'kirim_ke' => $berhasil, 'message' => $message]);
+        return response()->json(['status' => 'ok']);
     }
 }

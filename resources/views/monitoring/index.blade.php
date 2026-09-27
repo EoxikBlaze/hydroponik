@@ -31,6 +31,23 @@
     </div>
 </div>
 
+<!-- ANOMALY WARNING ALERT (PERIKSA ALAT) -->
+<div id="anomaly-alert" class="alert border-0 shadow-sm rounded-3 py-3 mb-4 d-none" style="background-color: #fffbeb; color: #92400e; border-left: 5px solid #f59e0b !important;">
+    <div class="d-flex align-items-center gap-3">
+        <i class="fas fa-triangle-exclamation fa-2x text-warning opacity-90"></i>
+        <div class="flex-grow-1">
+            <h6 class="fw-bold mb-1 d-flex align-items-center gap-2" id="anomaly-title">
+                <span>⚠️ PERIKSA ALAT: Ditemukan Data Sensor Tidak Wajar</span>
+                <span class="badge bg-warning text-dark px-2 py-1" style="font-size: 0.72rem;">Butuh Pengecekan Fisik</span>
+            </h6>
+            <div class="small opacity-90" id="anomaly-desc">
+                Sistem mendeteksi nilai sensor di luar batas wajar hidroponik. Kemungkinan kabel probe lepas, sensor belum terpasang, atau modul butuh kalibrasi.
+            </div>
+            <div id="anomaly-list" class="mt-2 d-flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+</div>
+
 <!-- LIVE TELEMETRY ROW -->
 <div class="row g-3 mb-4">
     <!-- Suhu Air -->
@@ -288,15 +305,92 @@ async function loadChartData(isManual = false) {
         document.getElementById('val-humidity').textContent   = latest.humidity !== null ? (latest.humidity + '%') : '--';
         document.getElementById('val-waterLevel').textContent = latest.water_level ?? '--';
 
-        // Update badges status kartu
-        const badgeState = isOnline ? 'Live' : 'Mati';
-        const badgeClass = isOnline ? 'badge-soft-success' : 'badge-soft-danger';
+        // Deteksi Anomali Sensor Fisik
+        const anomalies = {};
 
-        ['waterTemp', 'ph', 'tds', 'airTemp', 'humidity', 'waterLevel'].forEach(id => {
-            const el = document.getElementById('badge-' + id);
+        // Validasi Suhu Air (DS18B20)
+        if (latest.waterTemp !== null) {
+            const wt = parseFloat(latest.waterTemp);
+            if (wt <= 5 || wt >= 45 || wt === -127 || wt === 85) {
+                anomalies.waterTemp = "Suhu Air Tidak Wajar (" + wt + "°C)";
+            }
+        }
+
+        // Validasi pH Nutrisi (Normal: 4.0 - 9.0)
+        if (latest.ph !== null) {
+            const ph = parseFloat(latest.ph);
+            if (ph < 3.5 || ph > 10.0 || ph <= 0) {
+                anomalies.ph = "pH Nutrisi Ekstrem (" + ph + ") - Cek Probe BNC / Kalibrasi";
+            }
+        }
+
+        // Validasi TDS Nutrisi (Normal: 100 - 2500 ppm)
+        if (latest.tds !== null) {
+            const tds = parseFloat(latest.tds);
+            if (tds > 2500) {
+                anomalies.tds = "TDS Terlalu Tinggi (" + Math.round(tds) + " ppm) - Cek Konslet / Kabel";
+            }
+        }
+
+        // Validasi Suhu & Kelembaban Udara
+        if (latest.airTemp !== null) {
+            const at = parseFloat(latest.airTemp);
+            if (at <= 5 || at >= 55) anomalies.airTemp = "Suhu Udara Ekstrem (" + at + "°C)";
+        }
+        if (latest.humidity !== null) {
+            const h = parseFloat(latest.humidity);
+            if (h <= 5 || h > 100) anomalies.humidity = "Kelembaban Ekstrem (" + h + "%)";
+        }
+
+        // Validasi Level Tandon
+        if (latest.water_level && ["ERROR", "LOCKOUT"].includes(String(latest.water_level).toUpperCase())) {
+            anomalies.waterLevel = "Pelampung Konflik (" + latest.water_level + ")";
+        }
+
+        const hasAnomaly = Object.keys(anomalies).length > 0;
+        const anomalyAlert = document.getElementById("anomaly-alert");
+        const anomalyList  = document.getElementById("anomaly-list");
+
+        if (isOnline && hasAnomaly) {
+            syncBadge.className = "topbar-badge-warning";
+            syncBadge.style = "background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px;";
+            syncDot.style   = "width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; display: inline-block;";
+            syncStatus.textContent = "Periksa Alat (Data Tidak Wajar)";
+
+            if (anomalyAlert) {
+                anomalyAlert.classList.remove("d-none");
+                if (anomalyList) {
+                    anomalyList.innerHTML = Object.values(anomalies).map(a => 
+                        "<span class='badge bg-warning bg-opacity-25 text-dark border border-warning px-2 py-1'><i class='fas fa-wrench me-1'></i>" + a + "</span>"
+                    ).join("");
+                }
+            }
+        } else {
+            if (anomalyAlert) anomalyAlert.classList.add("d-none");
+            if (isOnline) {
+                syncBadge.className = "topbar-badge-live";
+                syncBadge.removeAttribute("style");
+                syncDot.className   = "live-dot";
+                syncDot.removeAttribute("style");
+                syncStatus.textContent = "Sinkronisasi Aktif (Live)";
+            }
+        }
+
+        // Update badges per kartu sensor
+        const sensorIds = ["waterTemp", "ph", "tds", "airTemp", "humidity", "waterLevel"];
+        sensorIds.forEach(id => {
+            const el = document.getElementById("badge-" + id);
             if (el) {
-                el.className = 'badge ' + badgeClass;
-                el.textContent = badgeState;
+                if (!isOnline) {
+                    el.className = "badge badge-soft-danger";
+                    el.textContent = "Mati";
+                } else if (anomalies[id]) {
+                    el.className = "badge bg-warning text-dark border border-warning fw-bold px-2 py-1";
+                    el.innerHTML = "<i class='fas fa-triangle-exclamation me-1'></i>Periksa Alat";
+                } else {
+                    el.className = "badge badge-soft-success";
+                    el.textContent = "Live";
+                }
             }
         });
 
