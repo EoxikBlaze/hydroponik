@@ -246,25 +246,40 @@ float kalmanFilterTDS(float measurement) {
 }
 
 float readSingleTDS(int tdsPin, float wTemp) {
-    int raw = analogRead(tdsPin);
+    long sumRaw = 0;
+    for (int i = 0; i < 20; i++) {
+        sumRaw += analogRead(tdsPin);
+        delay(2);
+    }
+    int raw = sumRaw / 20;
+    if (raw <= 15) return 0.0f; // Kering di udara
     float v  = (float)raw * (3.3f / 4095.0f);
     float cc = 1.0f + 0.02f * (wTemp - 25.0f);
     float vc = v / cc;
-    return (133.42f * vc * vc * vc - 255.86f * vc * vc + 857.39f * vc) * TDS_CALIBRATION_FACTOR;
+    float ppm = (133.42f * vc * vc * vc - 255.86f * vc * vc + 857.39f * vc) * 0.5f * TDS_CALIBRATION_FACTOR;
+    return (ppm < 0.0f) ? 0.0f : ppm;
 }
 
 float readTDSStable(int tdsPin, float wTemp, int samples, int delayMs) {
     float sum = 0;
+    int validCount = 0;
     for (int i = 0; i < samples; i++) {
-        sum += readSingleTDS(tdsPin, wTemp);
+        float val = readSingleTDS(tdsPin, wTemp);
+        sum += val;
+        validCount++;
         delay(delayMs);
     }
-    float avg = sum / (float)samples;
+    float avg = (validCount > 0) ? (sum / (float)validCount) : 0.0f;
     return movingAverageFilter(kalmanFilterTDS(avg));
 }
 
 float readPH() {
-    int raw = analogRead(PH_PIN);
+    long sumRaw = 0;
+    for (int i = 0; i < 20; i++) {
+        sumRaw += analogRead(PH_PIN);
+        delay(2);
+    }
+    int raw = sumRaw / 20;
     float voltage = (float)raw * (3.3f / 4095.0f);
     return PH_CALIBRATION_SLOPE * voltage + PH_CALIBRATION_OFFSET;
 }
@@ -507,6 +522,10 @@ void setup() {
 
     setupBuzzer();
     beepSuccess();
+
+    // Konfigurasi ADC ESP32 (12-bit & Jangkauan Penuh 3.3V)
+    analogReadResolution(12);
+    analogSetAttenuation(ADC_11db);
 
     pinMode(SSR_SOLENOID, OUTPUT);
     digitalWrite(SSR_SOLENOID, LOW);
