@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.8" moduleId="pH-SEN0161-V2" referenceFile="pH-SEN0161-V2.fzp">
+<version>1.0</version>
+<author>HarvestHouse</author>
+<title>pH DFRobot SEN0161-V2</title>
+<label>pH</label>
+<date>2026-10-10</date>
+<url>https://harvesthouse.biz.id</url>
+<tags>
+<tag>harvesthouse</tag>
+<tag>hidroponik</tag>
+</tags>
+<properties>
+<property name="family">sensor</property>
+</properties>
+<description>Papan pH Gravity DFRobot SEN0161-V2 (analog). Label papan: - + A. Supply 3.3-5.5V, output 0-3.0V -&gt; aman langsung ke ADC GPIO33 (tanpa divider).</description>
+<views>
+<iconView><layers image="icon/pH-SEN0161-V2_icon.svg"><layer layerId="icon"/></layers></iconView>
+<breadboardView><layers image="breadboard/pH-SEN0161-V2_breadboard.svg"><layer layerId="breadboard"/></layers></breadboardView>
+<schematicView><layers image="schematic/pH-SEN0161-V2_schematic.svg"><layer layerId="schematic"/></layers></schematicView>
+<pcbView>
+<layers image="pcb/pH-SEN0161-V2_pcb.svg">
+<layer layerId="copper0"/><layer layerId="copper1"/>
+<layer layerId="silkscreen"/><layer layerId="outline"/>
+</layers>
+</pcbView>
+</views>
+<connectors>
+<connector id="connector0" type="male" name="-">
+<description>Ground (kabel hitam)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector0pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector0pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector0pad"/><p layer="copper1" svgId="connector0pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector1" type="male" name="+">
+<description>Supply 5V (kabel merah)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector1pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector1pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector1pad"/><p layer="copper1" svgId="connector1pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector2" type="male" name="A">
+<description>Analog out 0-3V -&gt; GPIO33 (kabel kuning)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector2pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector2pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector2pad"/><p layer="copper1" svgId="connector2pad"/></pcbView>
+</views>
+</connector>
+</connectors>
+</module>

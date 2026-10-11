@@ -1,18 +1,51 @@
 @extends('layouts.app')
-@section('title','Edit Siklus')
+@section('title', 'Edit Durasi Siklus')
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-warning"><h5 class="mb-0">✏️ Edit Siklus</h5></div>
-            <div class="card-body">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="card-header bg-warning text-white py-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fas fa-pen-to-square fs-4"></i>
+                    <div>
+                        <h5 class="mb-0">✏️ Edit Durasi Siklus</h5>
+                        <small class="opacity-75">Perbarui master durasi tahap</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
                 <form action="{{ route('siklus.update',$siklus->id_siklus) }}" method="POST">
                     @csrf @method('PUT')
-                    <div class="mb-3"><label class="form-label fw-bold">Tanaman</label>
-                        <select name="id_tanaman" class="form-select"><option value="">-- Tidak ada --</option>@foreach($tanaman as $t)<option value="{{ $t->id_tanaman }}" {{ $siklus->id_tanaman == $t->id_tanaman ? 'selected':'' }}>{{ $t->nama_tanaman }}</option>@endforeach</select></div>
-                    <div class="mb-3"><label class="form-label fw-bold">Nama Siklus</label><input type="text" name="nama_siklus" class="form-control" value="{{ $siklus->nama_siklus }}" required></div>
-                    <div class="mb-3"><label class="form-label fw-bold">Waktu (Hari)</label><input type="number" name="waktu_siklus" class="form-control" value="{{ $siklus->waktu_siklus }}" required></div>
-                    <div class="d-flex gap-2"><button type="submit" class="btn btn-warning"><i class="fas fa-save me-1"></i>Update</button><a href="{{ route('siklus.index') }}" class="btn btn-secondary">Batal</a></div>
+                    <div class="row g-3">
+                    <div class="col-12 d-flex align-items-center gap-2 mt-2">
+                        <i class="fas fa-clock-rotate-left text-primary small"></i>
+                        <span class="fw-bold small text-uppercase text-muted">Durasi Siklus</span>
+                        <hr class="flex-grow-1 ms-2 my-0">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Tanaman (opsional)</label>
+                        <select name="id_tanaman" class="form-select">
+                            <option value="">-- Semua / Umum --</option>
+                            @foreach($tanaman as $t)
+                            <option value="{{ $t->id_tanaman }}" {{ old('id_tanaman', $siklus->id_tanaman) == $t->id_tanaman ? 'selected':'' }}>{{ $t->nama_tanaman }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Nama Siklus <span class="text-danger">*</span></label>
+                        <input type="text" name="nama_siklus" class="form-control @error('nama_siklus') is-invalid @enderror" value="{{ old('nama_siklus', $siklus->nama_siklus) }}" maxlength="100" required>@error('nama_siklus')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Durasi (hari) <span class="text-danger">*</span></label>
+                        <input type="number" name="waktu_siklus" class="form-control @error('waktu_siklus') is-invalid @enderror" value="{{ old('waktu_siklus', $siklus->waktu_siklus) }}" min="1" required>@error('waktu_siklus')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <small class="text-muted">Dipakai untuk hitung tgl selesai otomatis di form tahapan</small>
+                    </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ route('siklus.index') }}" class="btn btn-outline-secondary px-4"><i class="fas fa-arrow-left me-1"></i>Batal</a>
+                        <button type="submit" class="btn btn-warning px-4"><i class="fas fa-save me-1"></i>Update</button>
+                    </div>
                 </form>
             </div>
         </div>

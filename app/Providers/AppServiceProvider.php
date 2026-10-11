@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 use App\Models\Monitoring;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,13 +24,13 @@ class AppServiceProvider extends ServiceProvider
         // Bagikan status koneksi IoT secara realtime ke seluruh view
         View::composer('*', function ($view) {
             try {
-                $view->with('iotStatus', Monitoring::connectionStatus(5));
+                $view->with('iotStatus', Monitoring::connectionStatus(2));
             } catch (\Throwable $e) {
                 $view->with('iotStatus', [
-                    'online'    => false,
+                    'online' => false,
                     'last_seen' => null,
                     'diff_text' => 'Database tidak terhubung',
-                    'label'     => 'Offline',
+                    'label' => 'Offline',
                 ]);
             }
         });

@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Middleware\ApiKeyMiddleware;
+use App\Http\Middleware\DemoGuard;
+use App\Http\Middleware\PetaniGuard;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,8 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'auth'    => \Illuminate\Auth\Middleware\Authenticate::class,
-            'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
+            'auth' => Authenticate::class,
+            'api.key' => ApiKeyMiddleware::class,
+            'demo' => DemoGuard::class,
+            'petani' => PetaniGuard::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

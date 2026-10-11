@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.8" moduleId="SolenoidValve" referenceFile="SolenoidValve.fzp">
+<version>1.0</version>
+<author>HarvestHouse</author>
+<title>Solenoid Valve 12V</title>
+<label>SOLENOID</label>
+<date>2026-10-10</date>
+<url>https://harvesthouse.biz.id</url>
+<tags>
+<tag>harvesthouse</tag>
+<tag>hidroponik</tag>
+</tags>
+<properties>
+<property name="family">actuator</property>
+</properties>
+<description>Kran solenoid 12V (isi air), digerakkan kontak relay COM/NO. Dioda flyback 1N4007 paralel di kaki (+).</description>
+<views>
+<iconView><layers image="icon/SolenoidValve_icon.svg"><layer layerId="icon"/></layers></iconView>
+<breadboardView><layers image="breadboard/SolenoidValve_breadboard.svg"><layer layerId="breadboard"/></layers></breadboardView>
+<schematicView><layers image="schematic/SolenoidValve_schematic.svg"><layer layerId="schematic"/></layers></schematicView>
+<pcbView>
+<layers image="pcb/SolenoidValve_pcb.svg">
+<layer layerId="copper0"/><layer layerId="copper1"/>
+<layer layerId="silkscreen"/><layer layerId="outline"/>
+</layers>
+</pcbView>
+</views>
+<connectors>
+<connector id="connector0" type="male" name="+">
+<description>Ke NO relay &amp; katode D1</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector0pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector0pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector0pad"/><p layer="copper1" svgId="connector0pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector1" type="male" name="-">
+<description>Ke GND PSU 12V</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector1pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector1pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector1pad"/><p layer="copper1" svgId="connector1pad"/></pcbView>
+</views>
+</connector>
+</connectors>
+</module>

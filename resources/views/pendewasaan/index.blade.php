@@ -12,7 +12,32 @@
     </a>
 </div>
 
-<div class="card border-0 shadow-sm">
+<form method="GET" class="card border-0 shadow-sm mb-3">
+        <div class="card-body py-2">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Cari nama tanaman / keterangan...">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label small text-muted mb-0">Tgl mulai dari</label>
+                    <input type="date" name="dari" value="{{ request('dari') }}" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small text-muted mb-0">sampai</label>
+                    <input type="date" name="sampai" value="{{ request('sampai') }}" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-sm btn-primary w-100"><i class="fas fa-filter me-1"></i>Filter</button>
+                </div>
+                <div class="col-md-1">
+                    <a href="{{ request()->url() }}" class="btn btn-sm btn-outline-secondary w-100">Reset</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
@@ -23,7 +48,7 @@
                         <th>Meja Pendewasaan</th>
                         <th>Populasi Tanaman</th>
                         <th>Periode Pendewasaan</th>
-                        <th>Status Notif</th>
+
                         <th class="text-end pe-4" style="width: 140px;">Aksi</th>
                     </tr>
                 </thead>
@@ -49,14 +74,8 @@
                             <span class="d-block small text-dark"><i class="far fa-calendar me-1 text-muted"></i>{{ \Carbon\Carbon::parse($d->tgl_awal_pendewasaan)->format('d M Y') }}</span>
                             <span class="d-block small text-muted"><i class="far fa-calendar-check me-1 text-muted"></i>Panen: {{ \Carbon\Carbon::parse($d->tgl_akhir_pendewasaan)->format('d M Y') }}</span>
                         </td>
-                        <td>
-                            @if($d->status_notif === 'sent')
-                                <span class="badge badge-soft-success"><i class="fab fa-whatsapp me-1"></i>Terkirim</span>
-                            @else
-                                <span class="badge badge-soft-warning"><i class="far fa-clock me-1"></i>Pending</span>
-                            @endif
-                        </td>
-                        <td class="text-end pe-4">
+
+                        <td class="text-end pe-4">@unless(auth()->user()->is_demo)
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('pendewasaan.edit', $d->id_pendewasaan) }}" class="btn btn-light border text-secondary" title="Edit Data">
                                     <i class="fas fa-pen-to-square"></i>
@@ -68,7 +87,7 @@
                                     </button>
                                 </form>
                             </div>
-                        </td>
+                        @endunless</td>
                     </tr>
                     @empty
                     <tr>

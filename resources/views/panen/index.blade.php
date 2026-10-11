@@ -12,7 +12,32 @@
     </a>
 </div>
 
-<div class="card border-0 shadow-sm">
+<form method="GET" class="card border-0 shadow-sm mb-3">
+        <div class="card-body py-2">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <input type="text" name="q" value="{{ request('q') }}" class="form-control form-control-sm" placeholder="Cari nama tanaman / keterangan...">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label small text-muted mb-0">Tgl panen dari</label>
+                    <input type="date" name="dari" value="{{ request('dari') }}" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small text-muted mb-0">sampai</label>
+                    <input type="date" name="sampai" value="{{ request('sampai') }}" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-sm btn-primary w-100"><i class="fas fa-filter me-1"></i>Filter</button>
+                </div>
+                <div class="col-md-1">
+                    <a href="{{ request()->url() }}" class="btn btn-sm btn-outline-secondary w-100">Reset</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
@@ -52,7 +77,7 @@
                         <td>
                             <span class="small text-muted">{{ $p->keterangan ? $p->keterangan : '-' }}</span>
                         </td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-4">@unless(auth()->user()->is_demo)
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('panen.edit', $p->id_panen) }}" class="btn btn-light border text-secondary" title="Edit Data">
                                     <i class="fas fa-pen-to-square"></i>
@@ -64,7 +89,7 @@
                                     </button>
                                 </form>
                             </div>
-                        </td>
+                        @endunless</td>
                     </tr>
                     @empty
                     <tr>

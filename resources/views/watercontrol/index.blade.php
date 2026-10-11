@@ -56,6 +56,7 @@
                     Perintah akan diterima alat di kebun dalam beberapa detik.
                 </p>
 
+                @unless(auth()->user()->is_demo)
                 <div class="row g-3 my-2">
                     <div class="col-sm-6">
                         <div class="p-3 rounded-3 border bg-light">
@@ -68,6 +69,11 @@
                                 </select>
                                 <button type="submit" class="btn btn-sm btn-dark">Simpan</button>
                             </form>
+                            <small class="text-muted d-block mt-2" style="font-size: 0.72rem;">
+                                <strong>AUTO</strong> — sistem mengisi air otomatis sesuai level tandon.<br>
+                                <strong>MANUAL</strong> — sistem tidak mengisi sendiri; kran hanya dikendalikan
+                                tombol di bawah (ditutup otomatis bila lebih dari 20 menit).
+                            </small>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -81,6 +87,10 @@
 
                 <div class="mt-4">
                     <label class="form-label small fw-bold text-secondary">Atur Kran Secara Manual:</label>
+                    <small class="text-muted d-block mb-2" style="font-size: 0.72rem;">
+                        Catatan: setelah tombol ini dipakai, isi-otomatis berhenti sementara —
+                        aktif kembali setelah alat di-restart.
+                    </small>
                     <div class="d-flex gap-3 flex-wrap">
                         <form action="{{ route('watercontrol.fill') }}" method="POST" onsubmit="return confirm('Mulai pengisian air sekarang? Pastikan pasokan air utama tersedia.')">
                             @csrf
@@ -99,6 +109,11 @@
                         </form>
                     </div>
                 </div>
+                @else
+                <div class="alert alert-secondary border-0 rounded-3 small mt-4 mb-0">
+                    <i class="fas fa-lock me-1"></i> <strong>Mode Demo:</strong> tombol kontrol kran dinonaktifkan karena mengendalikan alat asli di kebun. Status di bawah tetap menampilkan data realtime.
+                </div>
+                @endunless
             </div>
 
             <div class="alert alert-warning border-0 rounded-3 small mt-4 mb-0 d-flex gap-2 align-items-start" style="background-color: #fffbeb; color: #92400e;">
@@ -147,7 +162,7 @@ async function pollStatus() {
         const res = await fetch('/api/latest-sensor');
         const data = await res.json();
 
-        // 1. Status Alat (Online / Offline)
+        // 1. Status Alat (Online / Offline) — pakai toleransi server (120 detik)
         const badge = document.getElementById('device-status-badge');
         if (data.is_online) {
             badge.className = 'badge badge-soft-success px-3 py-2 fs-6';
@@ -182,7 +197,7 @@ async function pollStatus() {
         if (waterLevel.includes('PENUH') || waterLevel.includes('HIGH')) {
             tankWater.style.height = '85%';
             tankWater.style.background = 'linear-gradient(180deg, #10b981 0%, #059669 100%)';
-        } else if (waterLevel.includes('RENDAH') || waterLevel.includes('LOW')) {
+        } else if (waterLevel.includes('KURANG') || waterLevel.includes('RENDAH') || waterLevel.includes('LOW')) {
             tankWater.style.height = '25%';
             tankWater.style.background = 'linear-gradient(180deg, #f87171 0%, #dc2626 100%)';
         } else {

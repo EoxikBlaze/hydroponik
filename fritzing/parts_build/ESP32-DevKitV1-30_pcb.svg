@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="156" viewBox="0 0 108 156" version="1.1">
+<g id="copper0">
+<rect x="2" y="2" width="104" height="152" fill="#0d5c2f" rx="3"/>
+<circle cx="9" cy="18" r="2.2" fill="#c0a030"/>
+<rect id="connector0pad" x="8" y="17" width="2" height="2" fill="none"/>
+<circle cx="99" cy="18" r="2.2" fill="#c0a030"/>
+<rect id="connector15pad" x="98" y="17" width="2" height="2" fill="none"/>
+<circle cx="9" cy="27" r="2.2" fill="#c0a030"/>
+<rect id="connector1pad" x="8" y="26" width="2" height="2" fill="none"/>
+<circle cx="99" cy="27" r="2.2" fill="#c0a030"/>
+<rect id="connector16pad" x="98" y="26" width="2" height="2" fill="none"/>
+<circle cx="9" cy="36" r="2.2" fill="#c0a030"/>
+<rect id="connector2pad" x="8" y="35" width="2" height="2" fill="none"/>
+<circle cx="99" cy="36" r="2.2" fill="#c0a030"/>
+<rect id="connector17pad" x="98" y="35" width="2" height="2" fill="none"/>
+<circle cx="9" cy="45" r="2.2" fill="#c0a030"/>
+<rect id="connector3pad" x="8" y="44" width="2" height="2" fill="none"/>
+<circle cx="99" cy="45" r="2.2" fill="#c0a030"/>
+<rect id="connector18pad" x="98" y="44" width="2" height="2" fill="none"/>
+<circle cx="9" cy="54" r="2.2" fill="#c0a030"/>
+<rect id="connector4pad" x="8" y="53" width="2" height="2" fill="none"/>
+<circle cx="99" cy="54" r="2.2" fill="#c0a030"/>
+<rect id="connector19pad" x="98" y="53" width="2" height="2" fill="none"/>
+<circle cx="9" cy="63" r="2.2" fill="#c0a030"/>
+<rect id="connector5pad" x="8" y="62" width="2" height="2" fill="none"/>
+<circle cx="99" cy="63" r="2.2" fill="#c0a030"/>
+<rect id="connector20pad" x="98" y="62" width="2" height="2" fill="none"/>
+<circle cx="9" cy="72" r="2.2" fill="#c0a030"/>
+<rect id="connector6pad" x="8" y="71" width="2" height="2" fill="none"/>
+<circle cx="99" cy="72" r="2.2" fill="#c0a030"/>
+<rect id="connector21pad" x="98" y="71" width="2" height="2" fill="none"/>
+<circle cx="9" cy="81" r="2.2" fill="#c0a030"/>
+<rect id="connector7pad" x="8" y="80" width="2" height="2" fill="none"/>
+<circle cx="99" cy="81" r="2.2" fill="#c0a030"/>
+<rect id="connector22pad" x="98" y="80" width="2" height="2" fill="none"/>
+<circle cx="9" cy="90" r="2.2" fill="#c0a030"/>
+<rect id="connector8pad" x="8" y="89" width="2" height="2" fill="none"/>
+<circle cx="99" cy="90" r="2.2" fill="#c0a030"/>
+<rect id="connector23pad" x="98" y="89" width="2" height="2" fill="none"/>
+<circle cx="9" cy="99" r="2.2" fill="#c0a030"/>
+<rect id="connector9pad" x="8" y="98" width="2" height="2" fill="none"/>
+<circle cx="99" cy="99" r="2.2" fill="#c0a030"/>
+<rect id="connector24pad" x="98" y="98" width="2" height="2" fill="none"/>
+<circle cx="9" cy="108" r="2.2" fill="#c0a030"/>
+<rect id="connector10pad" x="8" y="107" width="2" height="2" fill="none"/>
+<circle cx="99" cy="108" r="2.2" fill="#c0a030"/>
+<rect id="connector25pad" x="98" y="107" width="2" height="2" fill="none"/>
+<circle cx="9" cy="117" r="2.2" fill="#c0a030"/>
+<rect id="connector11pad" x="8" y="116" width="2" height="2" fill="none"/>
+<circle cx="99" cy="117" r="2.2" fill="#c0a030"/>
+<rect id="connector26pad" x="98" y="116" width="2" height="2" fill="none"/>
+<circle cx="9" cy="126" r="2.2" fill="#c0a030"/>
+<rect id="connector12pad" x="8" y="125" width="2" height="2" fill="none"/>
+<circle cx="99" cy="126" r="2.2" fill="#c0a030"/>
+<rect id="connector27pad" x="98" y="125" width="2" height="2" fill="none"/>
+<circle cx="9" cy="135" r="2.2" fill="#c0a030"/>
+<rect id="connector13pad" x="8" y="134" width="2" height="2" fill="none"/>
+<circle cx="99" cy="135" r="2.2" fill="#c0a030"/>
+<rect id="connector28pad" x="98" y="134" width="2" height="2" fill="none"/>
+<circle cx="9" cy="144" r="2.2" fill="#c0a030"/>
+<rect id="connector14pad" x="8" y="143" width="2" height="2" fill="none"/>
+<circle cx="99" cy="144" r="2.2" fill="#c0a030"/>
+<rect id="connector29pad" x="98" y="143" width="2" height="2" fill="none"/>
+</g>
+</svg>

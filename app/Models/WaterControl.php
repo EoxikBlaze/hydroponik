@@ -1,10 +1,13 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class WaterControl extends Model
 {
-    public $timestamps  = false;
+    public $timestamps = false;
+
     protected $fillable = ['command', 'mode', 'valve_state'];
 
     public static function current(): self

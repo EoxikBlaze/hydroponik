@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="57" viewBox="0 0 45 57" version="1.1">
+<g id="breadboard">
+<rect x="3" y="3" width="39" height="48" fill="#37474f" rx="2"/>
+<rect x="3" y="3" width="39" height="48" fill="none" stroke="#0b3d5c" stroke-width="0.6" rx="2"/>
+<text x="22.5" y="11" font-size="4.4" fill="#ffffff" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold">LCD20x4</text>
+<rect id="connector0pin" x="8.5" y="53.5" width="1" height="1" fill="none"/>
+<line x1="9" y1="54" x2="9" y2="49" stroke="#9aa0a6" stroke-width="1.4"/>
+<text x="9" y="47.5" font-size="3.4" fill="#e8f5e9" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal" transform="rotate(-90 9 47.5)">GND</text>
+<rect id="connector1pin" x="17.5" y="53.5" width="1" height="1" fill="none"/>
+<line x1="18" y1="54" x2="18" y2="49" stroke="#9aa0a6" stroke-width="1.4"/>
+<text x="18" y="47.5" font-size="3.4" fill="#e8f5e9" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal" transform="rotate(-90 18 47.5)">VCC</text>
+<rect id="connector2pin" x="26.5" y="53.5" width="1" height="1" fill="none"/>
+<line x1="27" y1="54" x2="27" y2="49" stroke="#9aa0a6" stroke-width="1.4"/>
+<text x="27" y="47.5" font-size="3.4" fill="#e8f5e9" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal" transform="rotate(-90 27 47.5)">SDA</text>
+<rect id="connector3pin" x="35.5" y="53.5" width="1" height="1" fill="none"/>
+<line x1="36" y1="54" x2="36" y2="49" stroke="#9aa0a6" stroke-width="1.4"/>
+<text x="36" y="47.5" font-size="3.4" fill="#e8f5e9" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal" transform="rotate(-90 36 47.5)">SCL</text>
+</g>
+</svg>

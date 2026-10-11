@@ -1,10 +1,13 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    public function up(): void
+    {
         Schema::create('semais', function (Blueprint $table) {
             $table->id('id_semai');
             $table->foreignId('id_tanaman')->nullable()->constrained('tanamen', 'id_tanaman')->nullOnDelete();
@@ -16,9 +19,12 @@ return new class extends Migration {
             $table->text('keterangan')->nullable();
             $table->integer('benih_berhasil')->default(0);
             $table->integer('benih_gagal')->default(0);
-            $table->enum('status_notif', ['pending', 'sent', 'failed'])->default('pending');
             $table->timestamps();
         });
     }
-    public function down(): void { Schema::dropIfExists('semais'); }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('semais');
+    }
 };

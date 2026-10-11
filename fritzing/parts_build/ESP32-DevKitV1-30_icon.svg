@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="156" viewBox="0 0 108 156" version="1.1">
+<g id="icon">
+<rect x="3" y="3" width="102" height="150" fill="#0b3d5c" rx="3"/>
+<text x="54" y="78" font-size="9" fill="#fff" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold">ESP32</text>
+</g>
+</svg>

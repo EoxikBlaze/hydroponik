@@ -1,10 +1,14 @@
 <?php
-namespace Database\Seeders;
-use Illuminate\Database\Seeder;
-use App\Models\SensorThreshold;
 
-class SensorThresholdSeeder extends Seeder {
-    public function run(): void {
+namespace Database\Seeders;
+
+use App\Models\SensorThreshold;
+use Illuminate\Database\Seeder;
+
+class SensorThresholdSeeder extends Seeder
+{
+    public function run(): void
+    {
         $data = [
             ['sensor' => 'waterTemp', 'min' => 5,  'max' => 40],
             ['sensor' => 'ph',        'min' => 5,  'max' => 7],
@@ -12,6 +16,8 @@ class SensorThresholdSeeder extends Seeder {
             ['sensor' => 'airTemp',   'min' => 20, 'max' => 40],
             ['sensor' => 'humidity',  'min' => 50, 'max' => 90],
         ];
-        foreach ($data as $d) SensorThreshold::create($d);
+        foreach ($data as $d) {
+            SensorThreshold::firstOrCreate(['sensor' => $d['sensor']], $d);
+        }
     }
 }

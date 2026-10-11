@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.8" moduleId="FloatSwitch" referenceFile="FloatSwitch.fzp">
+<version>1.0</version>
+<author>HarvestHouse</author>
+<title>Float Switch Magnetik Batang</title>
+<label>FS</label>
+<date>2026-10-10</date>
+<url>https://harvesthouse.biz.id</url>
+<tags>
+<tag>harvesthouse</tag>
+<tag>hidroponik</tag>
+</tags>
+<properties>
+<property name="family">switch</property>
+</properties>
+<description>Float switch batang 2 kabel (NO). Kabel C ke GPIO (INPUT_PULLUP), kabel NO ke GND. Terendam = kontak tutup = pin LOW. GPIO14=bawah, GPIO27=atas.</description>
+<views>
+<iconView><layers image="icon/FloatSwitch_icon.svg"><layer layerId="icon"/></layers></iconView>
+<breadboardView><layers image="breadboard/FloatSwitch_breadboard.svg"><layer layerId="breadboard"/></layers></breadboardView>
+<schematicView><layers image="schematic/FloatSwitch_schematic.svg"><layer layerId="schematic"/></layers></schematicView>
+<pcbView>
+<layers image="pcb/FloatSwitch_pcb.svg">
+<layer layerId="copper0"/><layer layerId="copper1"/>
+<layer layerId="silkscreen"/><layer layerId="outline"/>
+</layers>
+</pcbView>
+</views>
+<connectors>
+<connector id="connector0" type="male" name="C">
+<description>Ke GPIO (14 bawah / 27 atas)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector0pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector0pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector0pad"/><p layer="copper1" svgId="connector0pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector1" type="male" name="NO">
+<description>Ke GND</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector1pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector1pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector1pad"/><p layer="copper1" svgId="connector1pad"/></pcbView>
+</views>
+</connector>
+</connectors>
+</module>

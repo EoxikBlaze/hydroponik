@@ -1,10 +1,13 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    public function up(): void
+    {
         Schema::create('sikluses', function (Blueprint $table) {
             $table->id('id_siklus');
             $table->foreignId('id_tanaman')->nullable()->constrained('tanamen', 'id_tanaman')->nullOnDelete();
@@ -13,5 +16,9 @@ return new class extends Migration {
             $table->timestamps();
         });
     }
-    public function down(): void { Schema::dropIfExists('sikluses'); }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('sikluses');
+    }
 };

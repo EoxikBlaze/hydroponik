@@ -47,7 +47,7 @@
                         <td>
                             <span class="badge badge-soft-info">{{ $t->siklus?->count() ?? 0 }} Tahap Siklus</span>
                         </td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-4">@unless(auth()->user()->is_demo)
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('tanaman.edit', $t->id_tanaman) }}" class="btn btn-light border text-secondary" title="Edit">
                                     <i class="fas fa-pen-to-square"></i>
@@ -59,7 +59,7 @@
                                     </button>
                                 </form>
                             </div>
-                        </td>
+                        @endunless</td>
                     </tr>
                     @empty
                     <tr>

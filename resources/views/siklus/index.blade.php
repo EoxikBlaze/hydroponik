@@ -7,10 +7,21 @@
         <h4 class="fw-bold mb-1 text-dark"><i class="fas fa-arrows-rotate me-2 text-primary"></i>Master Siklus Tanam</h4>
         <p class="text-muted small mb-0">Atur durasi dan target waktu perputaran siklus tanaman hidroponik</p>
     </div>
-    <a href="{{ route('siklus.create') }}" class="btn btn-emerald px-3 py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm">
-        <i class="fas fa-plus"></i>
-        <span>Tambah Siklus</span>
-    </a>
+    <div class="d-flex gap-2 no-print">
+        <a href="{{ route('siklus.csv') }}" class="btn btn-outline-success py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm">
+            <i class="fas fa-file-csv"></i>
+            <span>Tarik CSV</span>
+        </a>
+        <button onclick="window.print()" class="btn btn-outline-danger py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm"
+                title="Pilih tujuan Save as PDF untuk menyimpan PDF">
+            <i class="fas fa-file-pdf"></i>
+            <span>Tarik PDF / Cetak</span>
+        </button>
+        <a href="{{ route('siklus.create') }}" class="btn btn-emerald px-3 py-2 rounded-3 d-flex align-items-center gap-2 shadow-sm">
+            <i class="fas fa-plus"></i>
+            <span>Tambah Siklus</span>
+        </a>
+    </div>
 </div>
 
 <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
@@ -40,7 +51,7 @@
                             <i class="fas fa-clock me-1 text-muted"></i>{{ $s->waktu_siklus }} Hari
                         </span>
                     </td>
-                    <td class="text-end pe-3">
+                    <td class="text-end pe-3">@unless(auth()->user()->is_demo)
                         <div class="d-flex justify-content-end gap-1">
                             <a href="{{ route('siklus.edit', $s->id_siklus) }}" class="btn btn-sm btn-light border text-warning" title="Edit">
                                 <i class="fas fa-pen-to-square"></i>
@@ -52,7 +63,7 @@
                                 </button>
                             </form>
                         </div>
-                    </td>
+                    @endunless</td>
                 </tr>
                 @empty
                 <tr>
@@ -63,4 +74,17 @@
         </table>
     </div>
 </div>
+
+<style>
+@media print {
+    .sidebar, .sidebar-backdrop, .topbar, .no-print, form { display: none !important; }
+    .main-wrapper { margin-left: 0 !important; }
+    .content-body { padding: 0 !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+    .table-responsive { overflow: visible !important; }
+    table { width: 100% !important; }
+    a[href]::after { content: none !important; }
+    @page { margin: 12mm; }
+}
+</style>
 @endsection

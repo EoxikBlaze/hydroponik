@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="30" viewBox="0 0 27 30" version="1.1">
+<g id="schematic">
+<rect x="14" y="6" width="40" height="14" fill="#fdf6e3" stroke="#555" stroke-width="0.5"/>
+<text x="34" y="14" font-size="4" fill="#111" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold">FS</text>
+<line x1="14" y1="16" x2="4" y2="16" stroke="#333" stroke-width="0.5"/>
+<rect id="connector0pin" x="3.5" y="15.5" width="1" height="1" fill="none"/>
+<text x="17" y="17.4" font-size="3.2" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">C</text>
+<line x1="14" y1="25" x2="4" y2="25" stroke="#333" stroke-width="0.5"/>
+<rect id="connector1pin" x="3.5" y="24.5" width="1" height="1" fill="none"/>
+<text x="17" y="26.4" font-size="3.2" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">NO</text>
+</g>
+</svg>

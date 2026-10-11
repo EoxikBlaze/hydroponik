@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -7,7 +9,10 @@ class AuthController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) return redirect('/dashboard');
+        if (Auth::check()) {
+            return redirect('/dashboard');
+        }
+
         return view('auth.login');
     }
 
@@ -25,7 +30,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect('/dashboard')->with('success', 'Login berhasil.');
+            $tujuan = Auth::user()->level === 'petani' ? '/tanam' : '/dashboard';
+
+            return redirect($tujuan)->with('success', 'Login berhasil.');
         }
 
         return back()->withErrors(['username' => 'Username / Password salah.'])->withInput();
@@ -36,6 +43,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login')->with('success', 'Berhasil logout.');
     }
 }

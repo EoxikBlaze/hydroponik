@@ -51,7 +51,7 @@
                                 <span class="badge badge-soft-info">Umum / Khusus</span>
                             @endif
                         </td>
-                        <td class="text-end pe-4">
+                        <td class="text-end pe-4">@unless(auth()->user()->is_demo)
                             <div class="btn-group btn-group-sm">
                                 <a href="{{ route('meja.edit', $m->id_meja) }}" class="btn btn-light border text-secondary" title="Edit">
                                     <i class="fas fa-pen-to-square"></i>
@@ -63,7 +63,7 @@
                                     </button>
                                 </form>
                             </div>
-                        </td>
+                        @endunless</td>
                     </tr>
                     @empty
                     <tr>

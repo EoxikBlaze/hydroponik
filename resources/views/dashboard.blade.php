@@ -39,7 +39,7 @@
         <h5 class="fw-bold mb-0 text-dark">
             <i class="fas fa-seedling me-2 text-emerald"></i>Kondisi Air & Tanaman Terkini
         </h5>
-        <small class="text-muted">
+        <small class="text-muted" id="conn-status-text">
             @if(!empty($iotStatus) && $iotStatus['online'])
                 <span class="text-success fw-semibold"><i class="fas fa-circle-check me-1"></i>Koneksi Aktif</span> • Data realtime sedang mengalir
             @else
@@ -93,11 +93,7 @@
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Opt: 5.5 - 6.5</small>
-                    @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-success">Live</span>
-                    @else
-                        <span class="badge badge-soft-danger">Mati</span>
-                    @endif
+                    <span class="badge {{ !empty($iotStatus) && $iotStatus['online'] ? 'badge-soft-success' : 'badge-soft-danger' }} card-status-badge">{{ !empty($iotStatus) && $iotStatus['online'] ? 'Live' : 'Mati' }}</span>
                 </div>
             </div>
         </div>
@@ -114,19 +110,11 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    @if($latest_sensor && $latest_sensor->waterTemp !== null)
-                        <span id="live-watertemp">{{ number_format($latest_sensor->waterTemp, 1) }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
-                    @else
-                        --
-                    @endif
+                    <span id="live-watertemp">{{ $latest_sensor && $latest_sensor->waterTemp !== null ? number_format($latest_sensor->waterTemp, 1) : '--' }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Opt: 20 - 30°C</small>
-                    @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-info">Live</span>
-                    @else
-                        <span class="badge badge-soft-danger">Mati</span>
-                    @endif
+                    <span class="badge {{ !empty($iotStatus) && $iotStatus['online'] ? 'badge-soft-success' : 'badge-soft-danger' }} card-status-badge">{{ !empty($iotStatus) && $iotStatus['online'] ? 'Live' : 'Mati' }}</span>
                 </div>
             </div>
         </div>
@@ -143,19 +131,11 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    @if($latest_sensor && $latest_sensor->tds !== null)
-                        {{ number_format($latest_sensor->tds) }} <span class="fs-6 fw-normal text-muted">ppm</span>
-                    @else
-                        --
-                    @endif
+                    <span id="live-tds">{{ $latest_sensor && $latest_sensor->tds !== null ? number_format($latest_sensor->tds) : '--' }}</span> <span class="fs-6 fw-normal text-muted">ppm</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Target: ~800-1000</small>
-                    @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-warning">Live</span>
-                    @else
-                        <span class="badge badge-soft-danger">Mati</span>
-                    @endif
+                    <span class="badge {{ !empty($iotStatus) && $iotStatus['online'] ? 'badge-soft-success' : 'badge-soft-danger' }} card-status-badge">{{ !empty($iotStatus) && $iotStatus['online'] ? 'Live' : 'Mati' }}</span>
                 </div>
             </div>
         </div>
@@ -172,19 +152,11 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    @if($latest_sensor && $latest_sensor->airTemp !== null)
-                        <span id="live-airtemp">{{ number_format($latest_sensor->airTemp, 1) }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
-                    @else
-                        --
-                    @endif
+                    <span id="live-airtemp">{{ $latest_sensor && $latest_sensor->airTemp !== null ? number_format($latest_sensor->airTemp, 1) : '--' }}</span> <span class="fs-6 fw-normal text-muted">°C</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Greenhouse</small>
-                    @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-warning">Live</span>
-                    @else
-                        <span class="badge badge-soft-danger">Mati</span>
-                    @endif
+                    <span class="badge {{ !empty($iotStatus) && $iotStatus['online'] ? 'badge-soft-success' : 'badge-soft-danger' }} card-status-badge">{{ !empty($iotStatus) && $iotStatus['online'] ? 'Live' : 'Mati' }}</span>
                 </div>
             </div>
         </div>
@@ -201,19 +173,11 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    @if($latest_sensor && $latest_sensor->humidity !== null)
-                        <span id="live-hum">{{ number_format($latest_sensor->humidity, 1) }}</span> <span class="fs-6 fw-normal text-muted">%</span>
-                    @else
-                        --
-                    @endif
+                    <span id="live-hum">{{ $latest_sensor && $latest_sensor->humidity !== null ? number_format($latest_sensor->humidity, 1) : '--' }}</span> <span class="fs-6 fw-normal text-muted">%</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Ideal 60-80%</small>
-                    @if(!empty($iotStatus) && $iotStatus['online'])
-                        <span class="badge badge-soft-success">Live</span>
-                    @else
-                        <span class="badge badge-soft-danger">Mati</span>
-                    @endif
+                    <span class="badge {{ !empty($iotStatus) && $iotStatus['online'] ? 'badge-soft-success' : 'badge-soft-danger' }} card-status-badge">{{ !empty($iotStatus) && $iotStatus['online'] ? 'Live' : 'Mati' }}</span>
                 </div>
             </div>
         </div>
@@ -230,7 +194,7 @@
                     </div>
                 </div>
                 <h3 class="fw-bold mb-1 text-dark">
-                    {{ $latest_sensor->water_level ?? '--' }}
+                    <span id="live-waterlevel">{{ $latest_sensor->water_level ?? '--' }}</span>
                 </h3>
                 <div class="d-flex align-items-center justify-content-between">
                     <small class="text-muted">Katup: {{ $water_control->command ?? 'OFF' }}</small>
@@ -336,9 +300,7 @@
                     <i class="fas fa-chart-line text-primary"></i>
                     <h6 class="fw-bold mb-0">Rata-Rata Sensor 6 Jam Terakhir</h6>
                 </div>
-                <a href="{{ route('notifikasi-wa.report') }}" target="_blank" class="btn btn-sm btn-outline-success">
-                    <i class="fab fa-whatsapp me-1"></i>Kirim Laporan WA
-                </a>
+
             </div>
             <div class="card-body p-0">
                 @if(!empty($sensor_avg))
@@ -421,6 +383,15 @@
 
 @push('scripts')
 <script>
+function formatTimeAgo(s) {
+    if (s === null || s === undefined) return 'belum ada data';
+    s = Math.round(s);
+    if (s < 60) return s + ' detik yang lalu';
+    const minutes = Math.floor(s / 60);
+    const remSecs = s % 60;
+    return minutes + ' menit ' + (remSecs > 0 ? remSecs + ' detik ' : '') + 'yang lalu';
+}
+
 async function checkLiveDevice() {
     try {
         const res = await fetch('/api/latest-sensor');
@@ -449,19 +420,58 @@ async function checkLiveDevice() {
             if (elTds && data.sensor.tds !== null) elTds.textContent = Math.round(data.sensor.tds);
             if (elAt && data.sensor.airTemp !== null) elAt.textContent = parseFloat(data.sensor.airTemp).toFixed(1);
             if (elHum && data.sensor.humidity !== null) elHum.textContent = parseFloat(data.sensor.humidity).toFixed(1);
+            const elWl = document.getElementById('live-waterlevel');
+            if (elWl && data.sensor.water_level) elWl.textContent = data.sensor.water_level;
         }
 
-        // 3. Update topbar badge
-        const topbarLive = document.querySelector('.topbar-badge-live');
-        const topbarOffline = document.querySelector('.topbar-badge-offline');
-        if (topbarLive && topbarOffline) {
-            if (data.is_online) {
-                topbarLive.parentElement.style.display = 'block';
-                topbarOffline.parentElement.style.display = 'none';
+        // 3. Update topbar badge + teks status (desktop & mobile)
+        const online = !!data.is_online;
+        const hasAnomaly = !!(data.anomalies && data.anomalies.has_anomaly);
+        const dot = (cls) => '<span class="' + cls + '" style="width: 8px; height: 8px; background: ' +
+            (online ? (hasAnomaly ? '#f59e0b' : '#10b981') : '#ef4444') +
+            '; border-radius: 50%; display: inline-block;"></span>';
+
+        const tbDesktop = document.getElementById('topbar-status-desktop');
+        if (tbDesktop) {
+            if (online && hasAnomaly) {
+                tbDesktop.innerHTML = '<div class="topbar-badge-warning" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px;" title="Alat terhubung namun ada data sensor yang tidak wajar. Periksa alat di kebun.">' +
+                    dot('') + '<span>⚠️ Periksa Alat (Data Tidak Wajar)</span></div>';
+            } else if (online) {
+                tbDesktop.innerHTML = '<div class="topbar-badge-live" title="Alat sensor di kebun sedang aktif mengirim data">' +
+                    '<span class="live-dot"></span><span>Alat Kebun Terhubung (Aktif)</span></div>';
             } else {
-                topbarLive.parentElement.style.display = 'none';
-                topbarOffline.parentElement.style.display = 'block';
+                tbDesktop.innerHTML = '<div class="topbar-badge-offline" title="Alat sensor di kebun sedang mati atau tidak tersambung internet">' +
+                    '<span class="offline-dot"></span><span>Alat Kebun Terputus (Mati) (' + formatTimeAgo(data.seconds_ago) + ')</span></div>';
             }
+        }
+
+        const tbMobile = document.getElementById('topbar-status-mobile');
+        if (tbMobile) {
+            if (online && hasAnomaly) {
+                tbMobile.innerHTML = '<span class="badge badge-soft-warning py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem; color: #d97706; background: rgba(245, 158, 11, 0.15);">⚠️ Periksa Alat</span>';
+            } else if (online) {
+                tbMobile.innerHTML = '<span class="badge badge-soft-success py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;"><span class="live-dot" style="width: 6px; height: 6px;"></span> Aktif</span>';
+            } else {
+                tbMobile.innerHTML = '<span class="badge badge-soft-danger py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem;"><span class="offline-dot" style="width: 6px; height: 6px;"></span> Mati</span>';
+            }
+        }
+
+        // 4. Update badge status di semua kartu sensor (Live / Periksa / Mati)
+        document.querySelectorAll('.card-status-badge').forEach(function (badge) {
+            if (online) {
+                badge.className = 'badge card-status-badge ' + (hasAnomaly ? 'badge-soft-warning' : 'badge-soft-success');
+                badge.textContent = hasAnomaly ? 'Periksa' : 'Live';
+            } else {
+                badge.className = 'badge card-status-badge badge-soft-danger';
+                badge.textContent = 'Mati';
+            }
+        });
+
+        const connText = document.getElementById('conn-status-text');
+        if (connText) {
+            connText.innerHTML = online
+                ? '<span class="text-success fw-semibold"><i class="fas fa-circle-check me-1"></i>Koneksi Aktif</span> • Data realtime sedang mengalir'
+                : '<span class="text-danger fw-semibold"><i class="fas fa-circle-xmark me-1"></i>Alat Kebun Sedang Mati</span> • Terakhir data diterima: <strong>' + formatTimeAgo(data.seconds_ago) + '</strong>';
         }
     } catch (e) {
         console.error("Gagal polling sensor:", e);
@@ -469,6 +479,7 @@ async function checkLiveDevice() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    checkLiveDevice();                   // cek langsung saat halaman dibuka
     setInterval(checkLiveDevice, 3000); // Polling otomatis tiap 3 detik
 });
 </script>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="156" viewBox="0 0 108 156" version="1.1">
+<g id="schematic">
+<rect x="30" y="6" width="60" height="160" fill="#e3f2fd" stroke="#1565c0" stroke-width="0.6"/>
+<text x="60" y="15" font-size="4.5" fill="#111" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold">ESP32 DevKit</text>
+<line x1="30" y1="22" x2="20" y2="22" stroke="#333" stroke-width="0.5"/>
+<rect id="connector0pin" x="19.5" y="21.5" width="1" height="1" fill="none"/>
+<text x="33" y="23.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">VIN(5V)</text>
+<line x1="90" y1="22" x2="100" y2="22" stroke="#333" stroke-width="0.5"/>
+<rect id="connector15pin" x="99.5" y="21.5" width="1" height="1" fill="none"/>
+<text x="87" y="23.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">3V3</text>
+<line x1="30" y1="31" x2="20" y2="31" stroke="#333" stroke-width="0.5"/>
+<rect id="connector1pin" x="19.5" y="30.5" width="1" height="1" fill="none"/>
+<text x="33" y="32.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">GND</text>
+<line x1="90" y1="31" x2="100" y2="31" stroke="#333" stroke-width="0.5"/>
+<rect id="connector16pin" x="99.5" y="30.5" width="1" height="1" fill="none"/>
+<text x="87" y="32.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">GND</text>
+<line x1="30" y1="40" x2="20" y2="40" stroke="#333" stroke-width="0.5"/>
+<rect id="connector2pin" x="19.5" y="39.5" width="1" height="1" fill="none"/>
+<text x="33" y="41.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO13</text>
+<line x1="90" y1="40" x2="100" y2="40" stroke="#333" stroke-width="0.5"/>
+<rect id="connector17pin" x="99.5" y="39.5" width="1" height="1" fill="none"/>
+<text x="87" y="41.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO15</text>
+<line x1="30" y1="49" x2="20" y2="49" stroke="#333" stroke-width="0.5"/>
+<rect id="connector3pin" x="19.5" y="48.5" width="1" height="1" fill="none"/>
+<text x="33" y="50.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO12</text>
+<line x1="90" y1="49" x2="100" y2="49" stroke="#333" stroke-width="0.5"/>
+<rect id="connector18pin" x="99.5" y="48.5" width="1" height="1" fill="none"/>
+<text x="87" y="50.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO2</text>
+<line x1="30" y1="58" x2="20" y2="58" stroke="#333" stroke-width="0.5"/>
+<rect id="connector4pin" x="19.5" y="57.5" width="1" height="1" fill="none"/>
+<text x="33" y="59.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO14</text>
+<line x1="90" y1="58" x2="100" y2="58" stroke="#333" stroke-width="0.5"/>
+<rect id="connector19pin" x="99.5" y="57.5" width="1" height="1" fill="none"/>
+<text x="87" y="59.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO4</text>
+<line x1="30" y1="67" x2="20" y2="67" stroke="#333" stroke-width="0.5"/>
+<rect id="connector5pin" x="19.5" y="66.5" width="1" height="1" fill="none"/>
+<text x="33" y="68.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO27</text>
+<line x1="90" y1="67" x2="100" y2="67" stroke="#333" stroke-width="0.5"/>
+<rect id="connector20pin" x="99.5" y="66.5" width="1" height="1" fill="none"/>
+<text x="87" y="68.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO16</text>
+<line x1="30" y1="76" x2="20" y2="76" stroke="#333" stroke-width="0.5"/>
+<rect id="connector6pin" x="19.5" y="75.5" width="1" height="1" fill="none"/>
+<text x="33" y="77.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO26</text>
+<line x1="90" y1="76" x2="100" y2="76" stroke="#333" stroke-width="0.5"/>
+<rect id="connector21pin" x="99.5" y="75.5" width="1" height="1" fill="none"/>
+<text x="87" y="77.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO17</text>
+<line x1="30" y1="85" x2="20" y2="85" stroke="#333" stroke-width="0.5"/>
+<rect id="connector7pin" x="19.5" y="84.5" width="1" height="1" fill="none"/>
+<text x="33" y="86.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO25</text>
+<line x1="90" y1="85" x2="100" y2="85" stroke="#333" stroke-width="0.5"/>
+<rect id="connector22pin" x="99.5" y="84.5" width="1" height="1" fill="none"/>
+<text x="87" y="86.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO5</text>
+<line x1="30" y1="94" x2="20" y2="94" stroke="#333" stroke-width="0.5"/>
+<rect id="connector8pin" x="19.5" y="93.5" width="1" height="1" fill="none"/>
+<text x="33" y="95.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO33</text>
+<line x1="90" y1="94" x2="100" y2="94" stroke="#333" stroke-width="0.5"/>
+<rect id="connector23pin" x="99.5" y="93.5" width="1" height="1" fill="none"/>
+<text x="87" y="95.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO18</text>
+<line x1="30" y1="103" x2="20" y2="103" stroke="#333" stroke-width="0.5"/>
+<rect id="connector9pin" x="19.5" y="102.5" width="1" height="1" fill="none"/>
+<text x="33" y="104.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO32</text>
+<line x1="90" y1="103" x2="100" y2="103" stroke="#333" stroke-width="0.5"/>
+<rect id="connector24pin" x="99.5" y="102.5" width="1" height="1" fill="none"/>
+<text x="87" y="104.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO19</text>
+<line x1="30" y1="112" x2="20" y2="112" stroke="#333" stroke-width="0.5"/>
+<rect id="connector10pin" x="19.5" y="111.5" width="1" height="1" fill="none"/>
+<text x="33" y="113.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO35</text>
+<line x1="90" y1="112" x2="100" y2="112" stroke="#333" stroke-width="0.5"/>
+<rect id="connector25pin" x="99.5" y="111.5" width="1" height="1" fill="none"/>
+<text x="87" y="113.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO21</text>
+<line x1="30" y1="121" x2="20" y2="121" stroke="#333" stroke-width="0.5"/>
+<rect id="connector11pin" x="19.5" y="120.5" width="1" height="1" fill="none"/>
+<text x="33" y="122.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO34</text>
+<line x1="90" y1="121" x2="100" y2="121" stroke="#333" stroke-width="0.5"/>
+<rect id="connector26pin" x="99.5" y="120.5" width="1" height="1" fill="none"/>
+<text x="87" y="122.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">RX0</text>
+<line x1="30" y1="130" x2="20" y2="130" stroke="#333" stroke-width="0.5"/>
+<rect id="connector12pin" x="19.5" y="129.5" width="1" height="1" fill="none"/>
+<text x="33" y="131.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO39</text>
+<line x1="90" y1="130" x2="100" y2="130" stroke="#333" stroke-width="0.5"/>
+<rect id="connector27pin" x="99.5" y="129.5" width="1" height="1" fill="none"/>
+<text x="87" y="131.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">TX0</text>
+<line x1="30" y1="139" x2="20" y2="139" stroke="#333" stroke-width="0.5"/>
+<rect id="connector13pin" x="19.5" y="138.5" width="1" height="1" fill="none"/>
+<text x="33" y="140.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO36</text>
+<line x1="90" y1="139" x2="100" y2="139" stroke="#333" stroke-width="0.5"/>
+<rect id="connector28pin" x="99.5" y="138.5" width="1" height="1" fill="none"/>
+<text x="87" y="140.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO22</text>
+<line x1="30" y1="148" x2="20" y2="148" stroke="#333" stroke-width="0.5"/>
+<rect id="connector14pin" x="19.5" y="147.5" width="1" height="1" fill="none"/>
+<text x="33" y="149.3" font-size="3.3" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">EN</text>
+<line x1="90" y1="148" x2="100" y2="148" stroke="#333" stroke-width="0.5"/>
+<rect id="connector29pin" x="99.5" y="147.5" width="1" height="1" fill="none"/>
+<text x="87" y="149.3" font-size="3.3" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IO23</text>
+</g>
+</svg>

@@ -1,15 +1,25 @@
 <?php
-namespace Database\Seeders;
-use Illuminate\Database\Seeder;
-use App\Models\Siklus;
 
-class SiklusSeeder extends Seeder {
-    public function run(): void {
-        $data = [
-            ['id_siklus' => 3, 'id_tanaman' => 3, 'nama_siklus' => 'Semai',       'waktu_siklus' => 5],
-            ['id_siklus' => 4, 'id_tanaman' => 3, 'nama_siklus' => 'Peremajaan',  'waktu_siklus' => 7],
-            ['id_siklus' => 5, 'id_tanaman' => 3, 'nama_siklus' => 'Pendewasaan', 'waktu_siklus' => 8],
-        ];
-        foreach ($data as $d) Siklus::create($d);
+namespace Database\Seeders;
+
+use App\Models\Siklus;
+use App\Models\Tanaman;
+use Illuminate\Database\Seeder;
+
+class SiklusSeeder extends Seeder
+{
+    public function run(): void
+    {
+        // JANGAN biarkan tanaman tanpa durasi (dropdown form semai jadi kosong).
+        // Setiap tanaman wajib punya 3 tahap; durasi yang sudah ada tidak diubah.
+        $tahap = ['Semai' => 7, 'Peremajaan' => 14, 'Pendewasaan' => 21];
+        foreach (Tanaman::all() as $t) {
+            foreach ($tahap as $nama => $hari) {
+                Siklus::firstOrCreate(
+                    ['id_tanaman' => $t->id_tanaman, 'nama_siklus' => $nama],
+                    ['waktu_siklus' => $hari],
+                );
+            }
+        }
     }
 }

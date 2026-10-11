@@ -9,7 +9,7 @@
                 @csrf @method('PUT')
                 <div class="mb-3"><label class="form-label fw-bold">Username</label><input type="text" name="username" class="form-control" value="{{ $user->username }}" required></div>
                 <div class="mb-3"><label class="form-label fw-bold">Email</label><input type="email" name="email" class="form-control" value="{{ $user->email }}" required></div>
-                <div class="mb-3"><label class="form-label fw-bold">Level</label><select name="level" class="form-select"><option value="user" {{ $user->level === 'user' ? 'selected':'' }}>User</option><option value="admin" {{ $user->level === 'admin' ? 'selected':'' }}>Admin</option></select></div>
+                <div class="mb-3"><label class="form-label fw-bold">Level</label><select name="level" class="form-select"><option value="user" {{ $user->level === 'user' ? 'selected':'' }}>User</option><option value="admin" {{ $user->level === 'admin' ? 'selected':'' }}>Admin</option><option value="petani" {{ $user->level === 'petani' ? 'selected':'' }}>Petani</option></select></div>
                 <hr><p class="text-muted small">Kosongkan password jika tidak ingin mengubahnya.</p>
                 <div class="mb-3"><label class="form-label fw-bold">Password Baru</label><input type="password" name="password" class="form-control"></div>
                 <div class="mb-3"><label class="form-label fw-bold">Konfirmasi Password</label><input type="password" name="password_confirmation" class="form-control"></div>

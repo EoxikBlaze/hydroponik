@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="63" viewBox="0 0 72 63" version="1.1">
+<g id="schematic">
+<rect x="16" y="6" width="44" height="51" fill="#fdecea" stroke="#b71c1c" stroke-width="0.6"/>
+<text x="38" y="14" font-size="4" fill="#111" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold">Relay 5V</text>
+<line x1="16" y1="24" x2="6" y2="24" stroke="#333" stroke-width="0.5"/>
+<rect id="connector0pin" x="5.5" y="23.5" width="1" height="1" fill="none"/>
+<text x="19" y="25.4" font-size="3.2" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">IN</text>
+<line x1="16" y1="33" x2="6" y2="33" stroke="#333" stroke-width="0.5"/>
+<rect id="connector1pin" x="5.5" y="32.5" width="1" height="1" fill="none"/>
+<text x="19" y="34.4" font-size="3.2" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">VCC</text>
+<line x1="16" y1="42" x2="6" y2="42" stroke="#333" stroke-width="0.5"/>
+<rect id="connector2pin" x="5.5" y="41.5" width="1" height="1" fill="none"/>
+<text x="19" y="43.4" font-size="3.2" fill="#111" text-anchor="start" font-family="Helvetica,Arial,sans-serif" font-weight="normal">GND</text>
+<line x1="60" y1="24" x2="70" y2="24" stroke="#333" stroke-width="0.5"/>
+<rect id="connector3pin" x="69.5" y="23.5" width="1" height="1" fill="none"/>
+<text x="57" y="25.4" font-size="3.2" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">NO</text>
+<line x1="60" y1="33" x2="70" y2="33" stroke="#333" stroke-width="0.5"/>
+<rect id="connector4pin" x="69.5" y="32.5" width="1" height="1" fill="none"/>
+<text x="57" y="34.4" font-size="3.2" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">COM</text>
+<line x1="60" y1="42" x2="70" y2="42" stroke="#333" stroke-width="0.5"/>
+<rect id="connector5pin" x="69.5" y="41.5" width="1" height="1" fill="none"/>
+<text x="57" y="43.4" font-size="3.2" fill="#111" text-anchor="end" font-family="Helvetica,Arial,sans-serif" font-weight="normal">NC</text>
+</g>
+</svg>

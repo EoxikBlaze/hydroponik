@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Pendewasaan;
+use Illuminate\Database\Seeder;
 
+/**
+ * Data pendewasaan contoh. Konsisten dengan induk & turunannya:
+ * - total pendewasaan per peremajaan <= benih_berhasil peremajaan
+ * - total panen per pendewasaan     <= tanaman_berhasil pendewasaan
+ */
 class PendewasaanSeeder extends Seeder
 {
     public function run(): void
@@ -15,10 +20,9 @@ class PendewasaanSeeder extends Seeder
                 'id_peremajaan' => 1,
                 'tanaman_berhasil' => 4,
                 'tanaman_gagal' => 1,
-                'tgl_awal_pendewasaan' => '2026-04-24',
-                'tgl_akhir_pendewasaan' => '2026-05-02',
+                'tgl_awal_pendewasaan' => '2026-05-16',
+                'tgl_akhir_pendewasaan' => '2026-05-24',
                 'keterangan' => 'ada',
-                'status_notif' => 'pending',
                 'id_meja' => 3,
             ],
             [
@@ -26,10 +30,9 @@ class PendewasaanSeeder extends Seeder
                 'id_peremajaan' => 1,
                 'tanaman_berhasil' => 5,
                 'tanaman_gagal' => 5,
-                'tgl_awal_pendewasaan' => '2026-03-12',
-                'tgl_akhir_pendewasaan' => '2026-03-20',
+                'tgl_awal_pendewasaan' => '2026-06-03',
+                'tgl_akhir_pendewasaan' => '2026-06-10',
                 'keterangan' => 'ada',
-                'status_notif' => 'pending',
                 'id_meja' => 3,
             ],
             [
@@ -37,10 +40,9 @@ class PendewasaanSeeder extends Seeder
                 'id_peremajaan' => 4,
                 'tanaman_berhasil' => 23,
                 'tanaman_gagal' => 23,
-                'tgl_awal_pendewasaan' => '2026-08-11',
-                'tgl_akhir_pendewasaan' => '2026-08-19',
+                'tgl_awal_pendewasaan' => '2026-08-12',
+                'tgl_akhir_pendewasaan' => '2026-08-20',
                 'keterangan' => 'wewe',
-                'status_notif' => 'pending',
                 'id_meja' => 9,
             ],
         ];

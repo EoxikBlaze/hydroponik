@@ -45,7 +45,7 @@
                     </td>
                     <td class="text-muted">{{ $u->email }}</td>
                     <td>
-                        <span class="badge {{ $u->level === 'admin' ? 'badge-soft-danger' : 'badge-soft-info' }} px-2 py-1">
+                        <span class="badge {{ $u->level === 'admin' ? 'badge-soft-danger' : ($u->level === 'petani' ? 'badge-soft-success' : 'badge-soft-info') }} px-2 py-1">
                             {{ ucfirst($u->level) }}
                         </span>
                     </td>

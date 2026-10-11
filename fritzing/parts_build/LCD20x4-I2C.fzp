@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.8" moduleId="LCD20x4-I2C" referenceFile="LCD20x4-I2C.fzp">
+<version>1.0</version>
+<author>HarvestHouse</author>
+<title>LCD 20x4 I2C (PCF8574)</title>
+<label>LCD20x4</label>
+<date>2026-10-10</date>
+<url>https://harvesthouse.biz.id</url>
+<tags>
+<tag>harvesthouse</tag>
+<tag>hidroponik</tag>
+</tags>
+<properties>
+<property name="family">display</property>
+</properties>
+<description>LCD 20x4 backpack I2C, alamat 0x27 (clone bisa 0x3F -&gt; I2C scan). Header: GND VCC SDA SCL. VCC disarankan 3V3 agar pull-up I2C di 3.3V.</description>
+<views>
+<iconView><layers image="icon/LCD20x4-I2C_icon.svg"><layer layerId="icon"/></layers></iconView>
+<breadboardView><layers image="breadboard/LCD20x4-I2C_breadboard.svg"><layer layerId="breadboard"/></layers></breadboardView>
+<schematicView><layers image="schematic/LCD20x4-I2C_schematic.svg"><layer layerId="schematic"/></layers></schematicView>
+<pcbView>
+<layers image="pcb/LCD20x4-I2C_pcb.svg">
+<layer layerId="copper0"/><layer layerId="copper1"/>
+<layer layerId="silkscreen"/><layer layerId="outline"/>
+</layers>
+</pcbView>
+</views>
+<connectors>
+<connector id="connector0" type="male" name="GND">
+<description>Ground</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector0pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector0pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector0pad"/><p layer="copper1" svgId="connector0pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector1" type="male" name="VCC">
+<description>Supply (3V3, aman untuk ESP32)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector1pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector1pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector1pad"/><p layer="copper1" svgId="connector1pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector2" type="male" name="SDA">
+<description>I2C SDA (GPIO21)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector2pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector2pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector2pad"/><p layer="copper1" svgId="connector2pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector3" type="male" name="SCL">
+<description>I2C SCL (GPIO22)</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector3pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector3pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector3pad"/><p layer="copper1" svgId="connector3pad"/></pcbView>
+</views>
+</connector>
+</connectors>
+</module>

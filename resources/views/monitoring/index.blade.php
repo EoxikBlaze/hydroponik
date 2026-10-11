@@ -15,6 +15,9 @@
         <button id="btn-refresh" class="btn btn-sm btn-light border px-3" onclick="loadChartData(true)">
             <i class="fas fa-rotate me-1" id="refresh-icon"></i> Refresh
         </button>
+        <a href="{{ route('monitoring.tarik') }}" class="btn btn-sm btn-outline-primary px-3">
+            <i class="fas fa-download me-1"></i> Tarik Data
+        </a>
     </div>
 </div>
 
@@ -297,12 +300,12 @@ async function loadChartData(isManual = false) {
             offlineDesc.innerHTML = 'Tidak ada sinyal data dalam 5 menit terakhir. Data terakhir diterima pada <strong>' + new Date(latest.created_at).toLocaleString('id-ID') + '</strong> (' + waktuLaluText + ').';
         }
 
-        // Update nilai telemetri kartu
-        document.getElementById('val-waterTemp').textContent  = latest.waterTemp !== null ? (latest.waterTemp + '°') : '--';
-        document.getElementById('val-ph').textContent         = latest.ph !== null ? latest.ph : '--';
-        document.getElementById('val-tds').textContent        = latest.tds !== null ? latest.tds : '--';
-        document.getElementById('val-airTemp').textContent    = latest.airTemp !== null ? (latest.airTemp + '°') : '--';
-        document.getElementById('val-humidity').textContent   = latest.humidity !== null ? (latest.humidity + '%') : '--';
+        // Update nilai telemetri kartu (format rapi)
+        document.getElementById('val-waterTemp').textContent  = latest.waterTemp !== null ? (parseFloat(latest.waterTemp).toFixed(1) + '°') : '--';
+        document.getElementById('val-ph').textContent         = latest.ph !== null ? parseFloat(latest.ph).toFixed(2) : '--';
+        document.getElementById('val-tds').textContent        = latest.tds !== null ? Math.round(latest.tds) : '--';
+        document.getElementById('val-airTemp').textContent    = latest.airTemp !== null ? (parseFloat(latest.airTemp).toFixed(1) + '°') : '--';
+        document.getElementById('val-humidity').textContent   = latest.humidity !== null ? (parseFloat(latest.humidity).toFixed(1) + '%') : '--';
         document.getElementById('val-waterLevel').textContent = latest.water_level ?? '--';
 
         // Deteksi Anomali Sensor Fisik

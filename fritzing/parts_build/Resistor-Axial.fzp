@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="1.0.8" moduleId="Resistor-Axial" referenceFile="Resistor-Axial.fzp">
+<version>1.0</version>
+<author>HarvestHouse</author>
+<title>Resistor Axial</title>
+<label>R</label>
+<date>2026-10-10</date>
+<url>https://harvesthouse.biz.id</url>
+<tags>
+<tag>harvesthouse</tag>
+<tag>hidroponik</tag>
+</tags>
+<properties>
+<property name="Resistance">10k</property>
+<property name="family">resistor</property>
+</properties>
+<description>Resistor axial pull-up. R 10k: DHT22 DATA-VCC; R 4.7k: DS18B20 DATA-VCC.</description>
+<views>
+<iconView><layers image="icon/Resistor-Axial_icon.svg"><layer layerId="icon"/></layers></iconView>
+<breadboardView><layers image="breadboard/Resistor-Axial_breadboard.svg"><layer layerId="breadboard"/></layers></breadboardView>
+<schematicView><layers image="schematic/Resistor-Axial_schematic.svg"><layer layerId="schematic"/></layers></schematicView>
+<pcbView>
+<layers image="pcb/Resistor-Axial_pcb.svg">
+<layer layerId="copper0"/><layer layerId="copper1"/>
+<layer layerId="silkscreen"/><layer layerId="outline"/>
+</layers>
+</pcbView>
+</views>
+<connectors>
+<connector id="connector0" type="male" name="A">
+<description>Kaki 1</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector0pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector0pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector0pad"/><p layer="copper1" svgId="connector0pad"/></pcbView>
+</views>
+</connector>
+<connector id="connector1" type="male" name="B">
+<description>Kaki 2</description>
+<views>
+<breadboardView><p layer="breadboard" svgId="connector1pin"/></breadboardView>
+<schematicView><p layer="schematic" svgId="connector1pin"/></schematicView>
+<pcbView><p layer="copper0" svgId="connector1pad"/><p layer="copper1" svgId="connector1pad"/></pcbView>
+</views>
+</connector>
+</connectors>
+</module>

@@ -7,9 +7,12 @@
         <h3 class="mb-0">📋 Laporan Hasil Siklus Hidroponik</h3>
         <p class="text-muted mb-0">Statistik performa siklus tanam, panen, serta ringkasan kondisi air & suhu</p>
     </div>
-    <div class="d-flex gap-2">
-        <button onclick="window.print()" class="btn btn-outline-secondary">
-            <i class="fas fa-print me-1"></i> Cetak Laporan
+    <div class="d-flex gap-2 no-print">
+        <a href="{{ route('laporan.csv', request()->query()) }}" class="btn btn-outline-success">
+            <i class="fas fa-file-csv me-1"></i> Unduh CSV
+        </a>
+        <button onclick="window.print()" class="btn btn-outline-danger" title="Pilih tujuan Save as PDF untuk menyimpan PDF">
+            <i class="fas fa-file-pdf me-1"></i> Unduh PDF / Cetak
         </button>
     </div>
 </div>
@@ -37,6 +40,7 @@
                 <div class="col-md-2">
                     <label class="form-label small fw-bold">Periode</label>
                     <select name="periode" id="periode" class="form-select">
+                        <option value="semua" {{ $filter['periode'] == 'semua' ? 'selected' : '' }}>Semua Waktu</option>
                         <option value="minggu" {{ $filter['periode'] == 'minggu' ? 'selected' : '' }}>Per Minggu</option>
                         <option value="bulan"  {{ $filter['periode'] == 'bulan'  ? 'selected' : '' }}>Per Bulan</option>
                         <option value="tahun"  {{ $filter['periode'] == 'tahun'  ? 'selected' : '' }}>Per Tahun</option>
@@ -91,6 +95,7 @@
             <thead class="table-light">
                 <tr>
                     <th rowspan="3" class="align-middle text-start ps-3" style="min-width: 150px;">TANAMAN</th>
+                    <th rowspan="3" class="align-middle text-start" style="min-width: 120px;">BATCH</th>
                     <th colspan="8" class="bg-light fw-bold text-uppercase">Tahapan Siklus Tanam</th>
                 </tr>
                 <tr>
@@ -114,6 +119,12 @@
                 @forelse($laporan as $item)
                 <tr>
                     <td class="text-start ps-3 fw-bold">{{ $item['nama_tanaman'] }}</td>
+                    <td class="text-start">
+                        <span class="badge badge-soft-info">#{{ $item['batch'] }}</span>
+                        @if(!empty($item['tgl']))
+                            <small class="text-muted d-block">{{ \Carbon\Carbon::parse($item['tgl'])->format('d/m/Y') }}</small>
+                        @endif
+                    </td>
                     <td class="text-success fw-bold">{{ $item['semai_berhasil'] }}</td>
                     <td class="text-danger">{{ $item['semai_gagal'] }}</td>
                     <td class="text-success fw-bold">{{ $item['peremajaan_berhasil'] }}</td>
@@ -125,13 +136,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="9" class="text-muted py-4">Belum ada data pada periode ini</td>
+                    <td colspan="10" class="text-muted py-4">Belum ada data pada periode ini</td>
                 </tr>
                 @endforelse
             </tbody>
             <tfoot class="table-secondary fw-bold">
                 <tr>
                     <td class="text-start ps-3">TOTAL KESELURUHAN</td>
+                    <td></td>
                     <td class="text-success">{{ $total['semai_berhasil'] }}</td>
                     <td class="text-danger">{{ $total['semai_gagal'] }}</td>
                     <td class="text-success">{{ $total['peremajaan_berhasil'] }}</td>
@@ -158,11 +170,11 @@
                 <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <tbody>
-                        <tr><td>🌡️ Suhu Air Nutrisi</td><td class="fw-bold text-end">{{ $sensor['waterTemp'] }} °C</td></tr>
-                        <tr><td>🧪 pH Air Nutrisi</td><td class="fw-bold text-end">{{ $sensor['ph'] }}</td></tr>
-                        <tr><td>⚡ TDS Nutrisi</td><td class="fw-bold text-end">{{ $sensor['tds'] }} ppm</td></tr>
-                        <tr><td>🌤️ Suhu Udara Greenhouse</td><td class="fw-bold text-end">{{ $sensor['airTemp'] }} °C</td></tr>
-                        <tr><td>💧 Kelembapan Udara</td><td class="fw-bold text-end">{{ $sensor['humidity'] }} %</td></tr>
+                        <tr><td>🌡️ Suhu Air Nutrisi</td><td class="fw-bold text-end">{{ $sensor['waterTemp'] !== null ? number_format($sensor['waterTemp'], 1) : '—' }} °C</td></tr>
+                        <tr><td>🧪 pH Air Nutrisi</td><td class="fw-bold text-end">{{ $sensor['ph'] !== null ? number_format($sensor['ph'], 2) : '—' }}</td></tr>
+                        <tr><td>⚡ TDS Nutrisi</td><td class="fw-bold text-end">{{ $sensor['tds'] !== null ? number_format($sensor['tds']) : '—' }} ppm</td></tr>
+                        <tr><td>🌤️ Suhu Udara Greenhouse</td><td class="fw-bold text-end">{{ $sensor['airTemp'] !== null ? number_format($sensor['airTemp'], 1) : '—' }} °C</td></tr>
+                        <tr><td>💧 Kelembapan Udara</td><td class="fw-bold text-end">{{ $sensor['humidity'] !== null ? number_format($sensor['humidity'], 1) : '—' }} %</td></tr>
                     </tbody>
                 </table>
                 </div>
@@ -188,7 +200,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <strong>{{ ucfirst($a['type']) }}</strong>
-                            <small class="text-muted d-block">{{ $a['created_at'] ?? now() }}</small>
+                            <small class="text-muted d-block">{{ \Carbon\Carbon::parse($a['created_at'])->format('d/m/Y H:i') }}</small>
                         </div>
                         <span class="badge bg-danger">{{ $a['value'] }}</span>
                     </li>
@@ -205,6 +217,21 @@
     </div>
 </div>
 
+<style>
+@media print {
+    .sidebar, .sidebar-backdrop, .topbar, .no-print, form { display: none !important; }
+    /* Layout memakai .main-wrapper (BUKAN .main-content) — tanpa ini sidebar
+       memang hilang tapi margin-left 260px masih melekat, sehingga isi laporan
+       tergeser ke kanan dan terpotong saat disimpan jadi PDF. */
+    .main-wrapper { margin-left: 0 !important; }
+    .content-body { padding: 0 !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+    .table-responsive { overflow: visible !important; }
+    table { width: 100% !important; }
+    a[href]::after { content: none !important; }
+    @page { margin: 12mm; }
+}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const periodeSelect = document.getElementById('periode');

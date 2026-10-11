@@ -305,6 +305,35 @@
             .content-body { padding: 1rem 0.85rem !important; }
             .topbar { padding: 0.75rem 1rem !important; }
         }
+
+        /* ================================================================
+           CETAK / "UNDUH PDF" — berlaku untuk SEMUA halaman.
+           Dua kegagalan yang membuat PDF rusak kalau aturan ini tidak ada:
+
+           1. Selama ini yang disembunyikan cuma .sidebar, tetapi aturannya
+              menyasar .main-content — padahal layout memakai .main-wrapper.
+              Akibatnya sidebar hilang tapi margin-left 260px masih melekat,
+              sehingga isi laporan tergeser ke kanan dan terpotong.
+           2. .main-wrapper punya transisi (transition: all .3s). Saat browser
+              mengambil snapshot cetak, nilai margin masih dalam perjalanan
+              dari 260px ke 0 dan hasilnya tidak menentu — seringkali masih
+              260px. Maka transisi dan animasi dimatikan selama cetak.
+
+           `form` sengaja TIDAK disembunyikan di sini: beberapa halaman punya
+           form yang membungkus tabel, jadi halaman masing-masing yang
+           menentukannya lewat class .no-print / aturannya sendiri.
+           ================================================================ */
+        @media print {
+            .sidebar, .sidebar-backdrop, .topbar, .no-print { display: none !important; }
+            .main-wrapper { margin-left: 0 !important; }
+            .content-body { padding: 0 !important; }
+            * { transition: none !important; animation: none !important; }
+            .table-responsive { overflow: visible !important; }
+            .card { box-shadow: none !important; }
+            table { width: 100% !important; }
+            a[href]::after { content: none !important; }
+            @page { margin: 12mm; }
+        }
     </style>
     @stack('styles')
 </head>
@@ -322,6 +351,10 @@
 
         <div class="py-2">
             <span class="sidebar-section-title">Pantau Kebun</span>
+            <a href="{{ route('tanam.index') }}" class="nav-link {{ request()->is('tanam*') ? 'active' : '' }}">
+                <i class="fas fa-seedling"></i>
+                <span>Tanam Saya</span>
+            </a>
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-chart-pie"></i>
                 <span>Dashboard</span>
@@ -330,27 +363,16 @@
                 <i class="fas fa-satellite-dish"></i>
                 <span>Sensor Real-Time</span>
             </a>
+            @if(auth()->user()->level !== 'petani')
             <a href="{{ route('watercontrol.index') }}" class="nav-link {{ request()->is('watercontrol*') ? 'active' : '' }}">
                 <i class="fas fa-faucet-drip"></i>
                 <span>Water Control</span>
             </a>
 
             <span class="sidebar-section-title">Siklus Hidroponik</span>
-            <a href="{{ route('semai.index') }}" class="nav-link {{ request()->is('semai*') ? 'active' : '' }}">
+            <a href="{{ route('semai.index') }}" class="nav-link {{ request()->is('semai*|peremajaan*|pendewasaan*|panen*') ? 'active' : '' }}">
                 <i class="fas fa-seedling"></i>
-                <span>1. Semai</span>
-            </a>
-            <a href="{{ route('peremajaan.index') }}" class="nav-link {{ request()->is('peremajaan*') ? 'active' : '' }}">
-                <i class="fas fa-spa"></i>
-                <span>2. Peremajaan</span>
-            </a>
-            <a href="{{ route('pendewasaan.index') }}" class="nav-link {{ request()->is('pendewasaan*') ? 'active' : '' }}">
-                <i class="fas fa-leaf"></i>
-                <span>3. Pendewasaan</span>
-            </a>
-            <a href="{{ route('panen.index') }}" class="nav-link {{ request()->is('panen*') ? 'active' : '' }}">
-                <i class="fas fa-wheat-awn"></i>
-                <span>4. Hasil Panen</span>
+                <span>Data Tahap (Detail)</span>
             </a>
 
             <span class="sidebar-section-title">Master Data</span>
@@ -366,20 +388,25 @@
                 <i class="fas fa-clock-rotate-left"></i>
                 <span>Durasi Siklus</span>
             </a>
-
-            <span class="sidebar-section-title">Komunikasi & Laporan</span>
+            <a href="{{ route('ambang.index') }}" class="nav-link {{ request()->is('ambang*') ? 'active' : '' }}">
+                <i class="fas fa-gauge-high"></i>
+                <span>Ambang Sensor</span>
+            </a>
             <a href="{{ route('notifikasi-wa.index') }}" class="nav-link {{ request()->is('notifikasi-wa*') ? 'active' : '' }}">
                 <i class="fab fa-whatsapp"></i>
                 <span>Notifikasi WhatsApp</span>
             </a>
-            <a href="{{ route('penerima_notif.index') }}" class="nav-link {{ request()->is('penerima_notif*') ? 'active' : '' }}">
-                <i class="fas fa-address-book"></i>
-                <span>Penerima Notif</span>
-            </a>
+
+            @endif
+
+            @if(auth()->user()->level !== 'petani')
+            <span class="sidebar-section-title">Laporan</span>
             <a href="{{ route('laporan.index') }}" class="nav-link {{ request()->is('laporan*') ? 'active' : '' }}">
                 <i class="fas fa-file-waveform"></i>
                 <span>Matriks Laporan</span>
             </a>
+
+            @endif
 
             @if(auth()->user()->level === 'admin')
             <span class="sidebar-section-title">Sistem</span>
@@ -400,7 +427,7 @@
                 <button class="btn btn-light d-lg-none" type="button" id="sidebarToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="d-none d-md-block">
+                <div class="d-none d-md-block" id="topbar-status-desktop">
                     @if(!empty($iotStatus) && $iotStatus['online'])
                         @if(!empty($iotStatus['has_anomaly']))
                             <div class="topbar-badge-warning" style="background: rgba(245, 158, 11, 0.12); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px;" title="Alat terhubung namun ada data sensor yang tidak wajar. Periksa alat di kebun.">
@@ -421,7 +448,7 @@
                     @endif
                 </div>
                 <!-- Status Ringkas Khusus Layar HP Android/iPhone -->
-                <div class="d-md-none">
+                <div class="d-md-none" id="topbar-status-mobile">
                     @if(!empty($iotStatus) && $iotStatus['online'])
                         @if(!empty($iotStatus['has_anomaly']))
                             <span class="badge badge-soft-warning py-1 px-2 d-flex align-items-center gap-1" style="font-size: 0.72rem; color: #d97706; background: rgba(245, 158, 11, 0.15);">
@@ -452,6 +479,9 @@
                             {{ strtoupper(substr(auth()->user()->username, 0, 1)) }}
                         </div>
                         <span class="fw-semibold small d-none d-sm-inline">{{ auth()->user()->username }}</span>
+                        @if(auth()->user()->is_demo)
+                            <span class="badge bg-warning text-dark small">MODE DEMO</span>
+                        @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
                         <li class="px-3 py-2 border-bottom">
@@ -469,6 +499,13 @@
 
         <!-- CONTENT BODY -->
         <main class="content-body">
+            @if(auth()->user()->is_demo)
+                <div class="alert alert-warning border-0 shadow-sm d-flex align-items-center gap-2 mb-4 py-3" style="background-color: #fffbeb; color: #92400e; border-left: 4px solid #f59e0b !important;">
+                    <i class="fas fa-clock fs-5"></i>
+                    <span><strong>Mode Demo</strong> — data yang Anda tambah bersifat sementara dan otomatis terhapus maksimal 1 jam. Edit, hapus, kelola user, dan kontrol kran dinonaktifkan.</span>
+                </div>
+            @endif
+
             @if(session('success'))
                 <div class="alert alert-success border-0 shadow-sm d-flex align-items-center justify-content-between mb-4 py-3" style="background-color: #ecfdf5; color: #065f46; border-left: 4px solid #10b981 !important;">
                     <div class="d-flex align-items-center gap-2">
